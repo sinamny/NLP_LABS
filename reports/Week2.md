@@ -2,29 +2,44 @@
 
 ## Lab 1: Text Tokenization
 
-### Mô tả công việc
-Trong Lab 1, tôi đã thực hiện các bước xử lý văn bản cơ bản:
+### Mục tiêu
+Hiểu và triển khai bước tiền xử lý văn bản cơ bản: **tokenization**. Tạo cả tokenizer đơn giản và tokenizer nâng cao bằng regex.
 
-1. **SimpleTokenizer**  
+### Mô tả công việc
+
+1. **Chuẩn bị interface Tokenizer**  
+   - Định nghĩa trong `src/core/interfaces.py` một abstract base class `Tokenizer` với phương thức:
+     ```python
+     tokenize(self, text: str) -> list[str]
+     ```
+   - Đây là phần **core** để tách riêng logic xử lý token khỏi cách load dữ liệu.
+
+2. **SimpleTokenizer**  
+   - File code: `src/preprocessing/simple_tokenizer.py`  
    - Chuyển toàn bộ văn bản về chữ thường.  
    - Tách từ dựa trên khoảng trắng.  
-   - Xử lý các dấu câu cơ bản (`.`, `,`, `!`, `?`) bằng cách tách chúng ra thành token riêng.  
+   - Xử lý các dấu câu cơ bản (`.`, `,`, `!`, `?`) thành token riêng.  
+   - Kết hợp với interface `Tokenizer` để có chuẩn phương thức chung.
 
-2. **RegexTokenizer**  
-   - Sử dụng biểu thức chính quy `\w+|[^\w\s]` để tách token.  
-   - Tokenizer này tách chi tiết hơn, ví dụ các ký tự `'` trong từ "isn't" được tách riêng thành `isn` + `'` + `t`.  
+3. **RegexTokenizer**  
+   - File code: `src/preprocessing/regex_tokenizer.py`  
+   - Sử dụng biểu thức chính quy `\w+|[^\w\s]` để tách token chi tiết hơn, ví dụ "isn't" -> `isn` + `'` + `t`.
 
-3. **Tokenization với UD_English-EWT Dataset**  
-   - Load một phần dữ liệu thực từ file `en_ewt-ud-train.txt`.  
-   - Thử token hóa 500 ký tự đầu tiên để so sánh output giữa SimpleTokenizer và RegexTokenizer.
+4. **Load dữ liệu từ dataset**  
+   - File loader: `src/core/dataset_loaders.py`  
+   - Load dữ liệu UD_English-EWT từ `data/UD_English-EWT/en_ewt-ud-train.txt`.  
+   - Lấy 500 ký tự đầu để thử tokenization và so sánh output của SimpleTokenizer và RegexTokenizer.
+
+5. **Test/demo Lab 1**  
+   - File: `labs/lab1/test_lab1_tokenizer.py`  
+   - Chạy thử tokenizer trên câu mẫu và sample từ dataset, in ra token.
 
 ### Cách chạy Lab 1
 ```bash
-# Chạy test Lab 1
 python -m labs.lab1.test_lab1_tokenizer
 ````
 
-### Kết quả chạy code
+### Kết quả mẫu
 
 #### Ví dụ câu test
 
@@ -42,39 +57,58 @@ SimpleTokenizer: ["let's", 'see', 'how', 'it', 'handles', '123', 'numbers', 'and
 RegexTokenizer: ['let', "'", 's', 'see', 'how', 'it', 'handles', '123', 'numbers', 'and', 'punctuation', '!']
 ```
 
-#### Sample từ dataset UD\_English-EWT
+#### Sample dataset UD\_English-EWT (first 20 tokens)
 
 ```
-SimpleTokenizer (first 20 tokens): ['al-zaman', ':', 'american', 'forces', 'killed', 'shaikh', 'abdullah', 'al-ani', ',', 'the', 'preacher', 'at', 'the', 'mosque', 'in', 'the', 'town', 'of', 'qaim', ',']
-RegexTokenizer  (first 20 tokens): ['al', '-', 'zaman', ':', 'american', 'forces', 'killed', 'shaikh', 'abdullah', 'al', '-', 'ani', ',', 'the', 'preacher', 'at', 'the', 'mosque', 'in', 'the']
+SimpleTokenizer: ['al-zaman', ':', 'american', 'forces', 'killed', 'shaikh', 'abdullah', 'al-ani', ',', 'the', 'preacher', 'at', 'the', 'mosque', 'in', 'the', 'town', 'of', 'qaim', ',']
+RegexTokenizer: ['al', '-', 'zaman', ':', 'american', 'forces', 'killed', 'shaikh', 'abdullah', 'al', '-', 'ani', ',', 'the', 'preacher', 'at', 'the', 'mosque', 'in', 'the']
 ```
 
 ### Giải thích kết quả
 
 * **SimpleTokenizer**: dễ đọc, giữ nguyên từ gốc và một số dấu câu liền nhau (ví dụ: "let's").
-* **RegexTokenizer**: chi tiết hơn, tách các ký tự đặc biệt như `'` ra riêng, phù hợp cho các pipeline NLP cần token chính xác.
+* **RegexTokenizer**: chi tiết hơn, tách ký tự đặc biệt như `'` ra riêng, phù hợp với pipeline NLP cần token chính xác.
 
 ---
 
 ## Lab 2: Count Vectorization
 
+### Mục tiêu
+
+Biểu diễn văn bản dưới dạng số (Bag-of-Words) để sử dụng cho các mô hình học máy.
+
 ### Mô tả công việc
 
-1. Định nghĩa interface `Vectorizer` với các phương thức `fit`, `transform`, `fit_transform`.
-2. Triển khai **CountVectorizer**:
+1. **Định nghĩa interface Vectorizer**
 
-   * Nhận một tokenizer (Simple hoặc Regex) từ Lab 1.
+   * File: `src/core/interfaces.py`
+   * Abstract base class `Vectorizer` với phương thức:
+
+     ```python
+     fit(self, corpus: list[str])
+     transform(self, documents: list[str]) -> list[list[int]]
+     fit_transform(self, corpus: list[str]) -> list[list[int]]
+     ```
+
+2. **Triển khai CountVectorizer**
+
+   * File: `src/representations/count_vectorizer.py`
+   * Nhận một tokenizer từ Lab 1.
    * Tạo `vocabulary_` từ tập hợp các token duy nhất.
-   * Chuyển đổi danh sách văn bản thành **document-term matrix**.
+   * Chuyển danh sách văn bản thành **document-term matrix**.
+
+3. **Test/demo Lab 2**
+
+   * File: `labs/lab2/test_lab2_vectorizer.py`
+   * Chạy CountVectorizer trên corpus mẫu và in ra vocabulary, document-term matrix.
 
 ### Cách chạy Lab 2
 
 ```bash
-# Chạy test Lab 2
 python -m labs.lab2.test_lab2_vectorizer
 ```
 
-### Kết quả chạy code
+### Kết quả mẫu
 
 #### Sample corpus
 
@@ -102,11 +136,8 @@ corpus = [
 
 ### Giải thích kết quả
 
-* Vocabulary bao gồm tất cả token duy nhất từ corpus.
-* Mỗi hàng trong document-term matrix tương ứng với một văn bản, các giá trị là số lần xuất hiện của token trong văn bản đó.
-* CountVectorizer này có thể dùng cho các mô hình học máy, ví dụ Naive Bayes hay Logistic Regression.
-* Lab 1 tập trung vào tiền xử lý text (tokenization).
-* Lab 2 tập trung vào biểu diễn văn bản dưới dạng số (vectorization).
-* Document-term matrix cho thấy trực quan tần suất xuất hiện token trong corpus, sẵn sàng cho các mô hình học máy tiếp theo.
-
-
+* Vocabulary gồm tất cả token duy nhất từ corpus.
+* Mỗi hàng trong document-term matrix là một văn bản, các giá trị là số lần xuất hiện token.
+* CountVectorizer sẵn sàng dùng cho các mô hình học máy như Naive Bayes hoặc Logistic Regression.
+* Lab 1 tập trung vào **tiền xử lý văn bản**, Lab 2 tập trung vào **biểu diễn văn bản thành số**.
+* Document-term matrix trực quan hóa tần suất token, thuận tiện cho các bước NLP tiếp theo.
