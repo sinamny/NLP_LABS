@@ -7,9 +7,10 @@ Dự án này là tập hợp các lab thực hành về Xử lý ngôn ngữ t�
 ```
 nlp-labs/
 │
-├── labs/                  # Thư mục chứa các bài lab
-│   ├── lab1/              
-│   └── lab2/              
+├── labs/                  # Thư mục chứa các bài lab (mỗi lab là một bài thực hành, các test theo lab)
+│   ├── lab1/                      # Lab 1 – Giới thiệu NLP cơ bản
+│   ├── lab2/                      # Lab 2 – Xử lý văn bản
+│   └── lab4/                      # Lab 4 – Word Embeddings            
 │   └── ...
 │
 ├── reports/               # File báo cáo tiết cho từng lab
@@ -21,6 +22,7 @@ nlp-labs/
 │
 ├── data/                  # Dataset 
 │   └── UD_English-EWT/
+├── results/                       # Kết quả huấn luyện (model, log, biểu đồ,…)
 ├── .gitignore             # File gitignore
-└── requirements.txt       # Thư viện Python cần thiết
+└── requirements.txt       # Danh sách thư viện Python cần cài đặt
 ```
