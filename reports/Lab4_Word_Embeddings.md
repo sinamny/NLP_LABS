@@ -5,36 +5,42 @@
 * Khai thác mô hình embedding có sẵn (pre-trained) từ thư viện `gensim`.
 * Thực hiện nhúng câu/văn bản bằng cách trung bình vector các từ.
 * Huấn luyện mô hình Word2Vec trên dữ liệu nhỏ (English-EWT).
-* **Phân tích ngữ nghĩa giữa các từ thông qua khoảng cách trong không gian vector.
+* Phân tích ngữ nghĩa giữa các từ thông qua khoảng cách trong không gian vector.
 
 ## **2. Chuẩn bị môi trường**
 
+
+### Cài đặt thư viện
 Trước khi thực hiện, cài đặt các thư viện cần thiết:
 
 ```bash
 pip install gensim scikit-learn matplotlib
 ```
-Cấu trúc thư mục chính:
+### Cấu trúc thư mục chính
+
+```
 nlp-labs/
 │
 ├── labs/
-│   └── lab4/                            # Bài Lab 4 – Word Embeddings
-│       ├── lab4_embedding_training_demo.py     # Huấn luyện Word2Vec từ đầu (gensim)
-│       ├── lab4_spark_word2vec_demo.py         # Huấn luyện Word2Vec phân tán với Spark
+│   └── lab4/
+│       ├── lab4_embedding_training_demo.py    # Huấn luyện Word2Vec từ đầu (gensim)
+│       ├── lab4_spark_word2vec_demo.py        # Huấn luyện Word2Vec phân tán với Spark
 │       ├── lab4_test.py                        # Kiểm thử và minh họa kết quả
 │
 ├── src/
 │   └── representations/
-│       └── word_embedder.py                    # Module định nghĩa lớp xử lý và biểu diễn Word Embeddings
+│       └── word_embedder.py                    # Lớp xử lý Word Embeddings
 │
 ├── reports/
 │   └── Lab4_Word_Embeddings.md
 │
 ├── data/
-│   └── UD_English-EWT/                   # Bộ dữ liệu Universal Dependencies English (EWT)
-│   └── c4-train.00000-of-01024-30K.json  # Dữ liệu văn bản lớn dùng cho huấn luyện Spark Word2Vec
-└── results/                            # Kết quả đầu ra sau huấn luyện
-    └── word2vec_ewt.model              # Mô hình Word2Vec huấn luyện từ dữ liệu EWT
+│   ├── UD_English-EWT/                         # Dữ liệu nhỏ cho Word2Vec
+│   └── c4-train.00000-of-01024-30K.json       # Dữ liệu lớn cho Spark Word2Vec
+└── results/
+    └── word2vec_ewt.model                      # Mô hình Word2Vec huấn luyện từ dữ liệu EWT
+```
+
 
 ## **3. Lý thuyết cơ bản**
 
@@ -259,7 +265,7 @@ Tất cả các từ được tìm thấy đều thuộc cùng miền ngữ ngh�
 | Mất nhiều thời gian khi hiển thị toàn bộ vector           | Chỉ in rút gọn (hiển thị vài phần tử đầu tiên)            |
 
 
-### **Bonus Task – Huấn luyện Word2Vec từ dữ liệu gốc **
+### Bonus Task: Huấn luyện Word2Vec từ dữ liệu EWT
 
 #### **Mục tiêu**
 
@@ -556,7 +562,7 @@ Hoàn thành huấn luyện Spark Word2Vec
   | Spark Word2Vec                   | C4 dataset (~30k documents) | Semantic gần thực tế, từ đồng nghĩa hợp lý                       |
 
 
-### So sánh mô hình
+**So sánh mô hình**
 
 | Tiêu chí             | Pre-trained (GloVe)         | Word2Vec tự huấn luyện           |
 | -------------------- | --------------------------- | -------------------------------- |
@@ -581,7 +587,7 @@ Hoàn thành huấn luyện Spark Word2Vec
         
 4.  **Thời gian huấn luyện**:
     
-    -   Spark cho phép parallelization → nhanh hơn huấn luyện trên 1 máy.
+    -   Spark cho phép parallelization => nhanh hơn huấn luyện trên 1 máy.
 
 ## **5. Tài liệu tham khảo**
 
