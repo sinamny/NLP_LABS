@@ -1,6 +1,6 @@
 # NLP LABS
 
-Dự án này là tập hợp các lab thực hành về Xử lý ngôn ngữ tự nhiên (NLP) sử dụng Python. 
+Dự án này là tập hợp các bài lab thực hành về Xử lý Ngôn ngữ Tự nhiên (NLP) và Học sâu (DL) sử dụng Python.
 
 ## Cấu trúc thư mục chính
 

@@ -383,13 +383,13 @@ Similarity(king, queen): 0.9939
     
     -   Các từ tương tự “computer” trong dữ liệu huấn luyện nhỏ có thể không phải đều liên quan công nghệ như mô hình pre-trained (ví dụ: “image”, “fear”, “bed”).
         
-    -   Độ tương đồng `king–queen` cao (0.9939) → mô hình học được quan hệ ngữ nghĩa từ corpus nhỏ, nhưng kết quả có thể **bị lệch do dataset hạn chế**.
+    -   Độ tương đồng `king–queen` cao (0.9939) => mô hình học được quan hệ ngữ nghĩa từ corpus nhỏ, nhưng kết quả có thể **bị lệch do dataset hạn chế**.
         
 -   **So sánh với mô hình pre-trained:**
     
-    -   Pre-trained embedding (GloVe) có vector 50 chiều, huấn luyện trên Wikipedia + Gigaword → các từ đồng nghĩa, quan hệ ngữ nghĩa rõ ràng hơn.
+    -   Pre-trained embedding (GloVe) có vector 50 chiều, huấn luyện trên Wikipedia + Gigaword => các từ đồng nghĩa, quan hệ ngữ nghĩa rõ ràng hơn.
         
-    -   Mô hình tự huấn luyện chỉ trên ~14k câu → chất lượng từ đồng nghĩa kém hơn, dễ xuất hiện các từ không liên quan.
+    -   Mô hình tự huấn luyện chỉ trên ~14k câu => chất lượng từ đồng nghĩa kém hơn, dễ xuất hiện các từ không liên quan.
         
 -   **Khó khăn và giải pháp:**
     
@@ -477,11 +477,11 @@ Sử dụng Spark để huấn luyện Word2Vec trên tập dữ liệu lớn, v
             main()
         
         ```
-1.  **SparkSession**: tạo môi trường Spark để xử lý dữ liệu phân tán.
+-  **SparkSession**: tạo môi trường Spark để xử lý dữ liệu phân tán.
     
-2.  **Load JSON**: sử dụng `spark.read.json()` để đọc dữ liệu lớn, không cần tải toàn bộ vào RAM.
+-  **Load JSON**: sử dụng `spark.read.json()` để đọc dữ liệu lớn, không cần tải toàn bộ vào RAM.
     
-3.  **Tiền xử lý**:
+-  **Tiền xử lý**:
     
     -   Chuyển lowercase (`lower`) để chuẩn hóa.
         
@@ -489,7 +489,7 @@ Sử dụng Spark để huấn luyện Word2Vec trên tập dữ liệu lớn, v
         
     -   Tokenize bằng `split`.
         
-4.  **Word2Vec của Spark MLlib**:
+-  **Word2Vec của Spark MLlib**:
     
     -   `vectorSize=100`: vector embedding 100 chiều.
         
@@ -497,7 +497,7 @@ Sử dụng Spark để huấn luyện Word2Vec trên tập dữ liệu lớn, v
         
     -   `fit()`: huấn luyện mô hình phân tán trên cluster hoặc máy local.
         
-5.  **Tìm từ tương tự**:
+-  **Tìm từ tương tự**:
     
     -   `findSynonyms("computer", 5)` trả về 5 từ gần “computer” nhất theo cosine similarity.
 
@@ -525,7 +525,6 @@ Tiền xử lý văn bản
 Tokenization
 ----------
 Huấn luyện mô hình Word2Vec (Skip-gram)
-25/10/14 23:30:18 WARN InstanceBuilder: Failed to load implementation from:dev.ludovic.netlib.blas.JNIBLAS
 
 Tìm các từ tương tự 'computer'
 +-----------+------------------+
