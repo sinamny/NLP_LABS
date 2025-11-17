@@ -1114,9 +1114,6 @@ Tuy mô hình RNN vanilla còn hạn chế, bài lab đã giúp em củng cố k
 Kết quả đạt được khá tốt so với độ phức tạp của mô hình. Với mô hình mạnh hơn (LSTM, BiLSTM, CRF, BERT), hiệu suất sẽ tăng đáng kể.
 
 # **Tài liệu tham khảo**
-
-## Tài liệu tham khảo
-
 1. Universal Dependencies v2 – [https://universaldependencies.org](https://universaldependencies.org)  
 2. PyTorch Documentation – RNN Module – [https://pytorch.org/docs/stable/generated/torch.nn.RNN.html](https://pytorch.org/docs/stable/generated/torch.nn.RNN.html)  
 3. PyTorch Documentation – Embedding Layer – [https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html](https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html)  
