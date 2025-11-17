@@ -49,7 +49,7 @@ Tensor trong PyTorch tương tự như `numpy.ndarray`, nhưng mạnh hơn vì n
 
 ### **Code **
 
-```
+```python
 import torch
 import numpy as np
 
@@ -109,7 +109,7 @@ Device lưu trữ của tensor: cpu
 
 ### **Code**
 
-```
+```python
 print("x_data + x_data =", x_data + x_data)
 print("\nx_data * 5 =", x_data * 5)
 print("\nx_data @ x_data.T =", x_data @ x_data.T)
@@ -117,7 +117,7 @@ print("\nx_data @ x_data.T =", x_data @ x_data.T)
 
 ### **Kết quả**
 
-```
+```python
 x_data + x_data = tensor([[2, 4],
         [6, 8]])
 
@@ -139,7 +139,7 @@ x_data @ x_data.T = tensor([[ 5, 11],
 
 ### **Code**
 
-```
+```python
 print("Hàng đầu:", x_data[0])
 print("Cột thứ hai:", x_data[:, 1])
 print("Phần tử (2, 2): ", x_data[1, 1])
@@ -163,7 +163,7 @@ Phần tử (2, 2):  tensor(4)
 
 ### **Code**
 
-```
+```python
 tensor4x4 = torch.rand(4, 4)
 print("Tensor 4x4:\n", tensor4x4)
 
@@ -218,7 +218,7 @@ $z = y^2 \times 3$
 
 ### **Code**
 
-```
+```python
 x = torch.ones(1, requires_grad=True)
 y = x + 2
 z = y * y * 3
@@ -272,7 +272,7 @@ z.backward(retain_graph=True)
 
 ### **Code**
 
-```
+```python
 import torch.nn as nn
 
 linear = nn.Linear(5, 2)
@@ -303,7 +303,7 @@ Output shape: torch.Size([3, 2])
 
 ### **Code**
 
-```
+```python
 embedding = nn.Embedding(10, 3)
 indices = torch.tensor([1, 5, 2, 9])
 embedded = embedding(indices)
@@ -337,7 +337,7 @@ Embeddings:
 
 ### **Code**
 
-```
+```python
 class SimpleModel(nn.Module):
     def __init__(self, vocab_size, embedding_dim, hidden_dim, output_dim):
         super().__init__()
@@ -405,7 +405,7 @@ cd nlp-labs
 - Sử dụng tập dữ liệu hwu.tar.gz, gồm các câu truy vấn người dùng và nhãn intent tương ứng.
 - Chia thành 3 tập: `train`, `validation`, `test`.
 
-```
+```python
 import pandas as pd
 
 df_train = pd.read_csv('src/data/hwu/train.csv', quotechar='"')
@@ -419,7 +419,7 @@ print("Test shape:", df_test.shape)
 
 ## **Tiền xử lý nhãn (Label Encoding)**
 
-```
+```python
 from sklearn.preprocessing import LabelEncoder
 
 le = LabelEncoder()
@@ -443,7 +443,7 @@ num_classes = len(le.classes_)
 
 * Mô hình baseline 1: Biểu diễn văn bản bằng TF-IDF, dự đoán với Logistic Regression.
 
-```
+```python
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import make_pipeline
@@ -478,7 +478,7 @@ f1_tfidf = f1_score(y_test, y_pred_tfidf, average='macro')
 * Vector của câu = trung bình các vector từ. => Mất thứ tự 
 * Mạng Dense Layer dự đoán nhãn.
 
-```
+```python
 from gensim.models import Word2Vec
 import numpy as np
 from tensorflow.keras.models import Sequential
@@ -531,7 +531,7 @@ f1_w2v = f1_score(y_test, y_pred_dense, average='macro')
 * Sử dụng Word2Vec đã huấn luyện làm **pre-trained embedding**.
 * LSTM xử lý chuỗi, giữ thông tin về thứ tự từ và ngữ cảnh.
 
-```
+```python
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.layers import Embedding, LSTM
@@ -588,7 +588,7 @@ f1_lstm_pre = f1_score(y_test, y_pred_lstm_pre, average='macro')
 
 * Embedding layer được học từ đầu, không dùng ma trận pre-trained.
 
-```
+```python
 lstm_scratch = Sequential([
     Embedding(input_dim=vocab_size, output_dim=100, input_length=max_len, trainable=True),  # Học embeddings từ dữ liệu
     LSTM(128, dropout=0.2, recurrent_dropout=0.2),
@@ -633,7 +633,7 @@ f1_lstm_scratch = f1_score(y_test, y_pred_lstm_scratch, average='macro')
 
 ### **2. Phân tích định tính**
 
-```
+```python
 examples = [
     "sorry but i think you've got that not right.",
     "is starbucks stock up or down from last quarter",
@@ -762,7 +762,7 @@ Hàm load_conllu() xử lý:
     * Gom các dòng liên tục thành 1 câu, phân tách bằng dòng rỗng.
     * Lấy 2 trường: word = column[1], tag = column[3].
     * Kết quả trả về: List[List[(word, tag)]].
-```
+```python
 def load_conllu(file_path):
     """
     Đọc file .conllu và trả về danh sách các câu.
@@ -804,7 +804,7 @@ Hàm build_vocab():
     * Tạo tag_to_ix từ toàn bộ nhãn xuất hiện trong tập train.
 
     * Trả về (word_to_ix, tag_to_ix). In kích thước từ điển.
-```
+```python
 def build_vocab(sentences):
     word_to_ix = {"<UNK>": 0}  # index 0 dành cho từ không có trong vocab
     tag_to_ix = {}
@@ -833,7 +833,7 @@ Mỗi câu có độ dài khác nhau ⇒ cần padding. PyTorch DataLoader hỗ 
 * Dataset cho POS Tagging. Input 1 câu => list từ + list nhãn
 * Mỗi item trả về (sentence_indices_tensor, tag_indices_tensor) - tensors chưa pad cho từng câu. Không pad ở bước này mà để collate_fn xử lý.
 
-```
+```python
 class POSDataset(torch.utils.data.Dataset):
     def __init__(self, sentences, word_to_ix, tag_to_ix):
         self.sentences = sentences
@@ -861,7 +861,7 @@ class POSDataset(torch.utils.data.Dataset):
 * Pad sentences với padding_value=0 (index của <UNK> hoặc có thể reserve <PAD>=0).
 * Pad tags với padding_value = -100 (sử dụng ignore_index=-100 trong CrossEntropyLoss). Vì nn.CrossEntropyLoss(ignore_index=-100) sẽ bỏ qua giá trị này khi tính loss.
 * Trả về: sentences_padded [B, L], tags_padded [B, L]
-```
+```python
 def collate_fn(batch):
     sentences, tags = zip(*batch)
 
@@ -875,20 +875,21 @@ def collate_fn(batch):
 
 ```
 
-### **Task 3: Xây dựng mô hình RNN (token classification)
+### Task 3: Xây dựng mô hình RNN (token classification)
 Mô hình gồm 3 phần:
 
-* Embedding layer: biến chỉ số từ  index => vector d-chiều
+1. Embedding layer: biến chỉ số từ  index => vector d-chiều
 
-* RNN (vanilla RNN): xử lý chuỗi embedding
+2. RNN (vanilla RNN): xử lý chuỗi embedding
 
-* Linear layer: ánh xạ hidden state + số lượng tag
-```
+3. Linear layer: ánh xạ hidden state + số lượng tag
+
+```python
 class SimpleRNNForTokenClassification(nn.Module):
     def __init__(self, vocab_size, embedding_dim, hidden_dim, num_classes):
         super(SimpleRNNForTokenClassification, self).__init__()
 
-        # Embedding: từ index → vector
+        # Embedding: từ index => vector
         self.embedding = nn.Embedding(
             num_embeddings=vocab_size,
             embedding_dim=embedding_dim,
@@ -911,32 +912,30 @@ class SimpleRNNForTokenClassification(nn.Module):
         rnn_out, _ = self.rnn(embeds)      # [batch, seq_len, hidden_dim]
         logits = self.fc(rnn_out)          # [batch, seq_len, num_classes]
         return logits
-
 ```
 
 ### **Task 4: Huấn luyện mô hình**
-Hàm train_model() thực hiện:
+Quy trình huấn luyện bao gồm:
 
-    * Đưa mô hình lên device.
+* Đưa mô hình lên thiết bị (CPU/GPU)
+* Khởi tạo:
 
-    * Khởi tạo optimizer Adam và CrossEntropyLoss(ignore_index=-100).
+  * **Optimizer:** Adam
+  * **Loss:** CrossEntropyLoss (bỏ qua padding bằng *ignore_index = -100*)
+* Cho mỗi batch:
 
-    * Với mỗi batch:
+  1. Forward → lấy logits
+  2. Tính loss
+  3. Backward
+  4. Update trọng số
+* Sau mỗi epoch:
 
-        - Forward
-        - Tính loss
-        - Backward
-        - Update trọng số
+  * In **train loss trung bình**
+  * Tính **độ chính xác trên dev** bằng hàm `evaluate()`
 
-    * Sau mỗi epoch:
+Lưu ý: Do bài toán gán nhãn theo token, cần **flatten** logits và tags trước khi đưa vào CrossEntropyLoss.
 
-        * In loss trung bình
-
-        * Tính accuracy trên dev bằng hàm evaluate()
-
-    Loss được tính bằng cách flatten.
-```
-
+```python
 def train_model(model, train_loader, dev_loader, epochs=5, lr=0.001, device='cpu'):
     model.to(device)
     optimizer = optim.Adam(model.parameters(), lr=lr)
@@ -976,7 +975,7 @@ def train_model(model, train_loader, dev_loader, epochs=5, lr=0.001, device='cpu
 Hàm evaluate(): Tính accuracy trên các vị trí không phải padding, tức tag != -100
 
 
-```
+```python
 
 def evaluate(model, data_loader, device='cpu'):
     model.eval()
@@ -1005,7 +1004,7 @@ Hàm predict_sentence():
 * Lấy dự đoán bằng argmax.
 * Trả về list [(token, predicted_tag)].
 
-```
+```python
 
 def predict_sentence(model, sentence, word_to_ix, tag_to_ix, device='cpu'):
     model.eval()
