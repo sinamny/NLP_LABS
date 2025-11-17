@@ -756,12 +756,15 @@ Một mẫu:
 * Đọc file `.conllu`, tách câu dựa vào dòng rỗng..
 * Trích xuất cặp `(word, tag)`.
 
-**Hàm `load_conllu()`**
+**Hàm `load_conllu()`:**
+
 Hàm load_conllu() xử lý:
-    * Bỏ qua các dòng comment bắt đầu bằng #.
-    * Gom các dòng liên tục thành 1 câu, phân tách bằng dòng rỗng.
-    * Lấy 2 trường: word = column[1], tag = column[3].
-    * Kết quả trả về: List[List[(word, tag)]].
+
+* Bỏ qua các dòng comment bắt đầu bằng #.
+* Gom các dòng liên tục thành 1 câu, phân tách bằng dòng rỗng.
+* Lấy 2 trường: word = column[1], tag = column[3].
+* Kết quả trả về: List[List[(word, tag)]].
+
 ```python
 def load_conllu(file_path):
     """
@@ -799,11 +802,12 @@ def load_conllu(file_path):
 ##### **Xây dựng Vocabulary**
 Hàm build_vocab():
 
-    * Tạo word_to_ix, bắt đầu với token đặc biệt <UNK> = 0. word_to_ix dùng <UNK> cho từ OOV. Index tăng dần khi gặp từ mới.
+* Tạo `word_to_ix`, bắt đầu với token đặc biệt `<UNK> = 0`. `word_to_ix` dùng `<UNK>` cho từ OOV. Index tăng dần khi gặp từ mới.
 
-    * Tạo tag_to_ix từ toàn bộ nhãn xuất hiện trong tập train.
+* Tạo `tag_to_ix` từ toàn bộ nhãn xuất hiện trong tập train.
 
-    * Trả về (word_to_ix, tag_to_ix). In kích thước từ điển.
+* Trả về `(word_to_ix, tag_to_ix)` và in kích thước từ điển.
+
 ```python
 def build_vocab(sentences):
     word_to_ix = {"<UNK>": 0}  # index 0 dành cho từ không có trong vocab
@@ -924,7 +928,7 @@ Quy trình huấn luyện bao gồm:
   * **Loss:** CrossEntropyLoss (bỏ qua padding bằng *ignore_index = -100*)
 * Cho mỗi batch:
 
-  1. Forward → lấy logits
+  1. Forward => lấy logits
   2. Tính loss
   3. Backward
   4. Update trọng số
@@ -1094,7 +1098,7 @@ I love NLP
 Trong bài lab này, em đã:
 
 * Hiểu rõ cấu trúc dữ liệu CoNLL-U và cách tách dữ liệu cho các tác vụ NLP.
-* Tự xây dựng một pipeline hoàn chỉnh từ load dữ liệu → tạo vocab => Dataset/DataLoader → mô hình RNN → huấn luyện → dự đoán.
+* Tự xây dựng một pipeline hoàn chỉnh từ load dữ liệu => tạo vocab => Dataset/DataLoader => mô hình RNN => huấn luyện => dự đoán.
 * Nắm được kỹ thuật tạo mô hình phân loại token (token classification).
 * Biết cách xử lý padding cho bài toán sequence labeling.
 * Huấn luyện thành công mô hình RNN đạt Dev Accuracy = 0.8492 sau 5 epoch.
@@ -1111,12 +1115,22 @@ Kết quả đạt được khá tốt so với độ phức tạp của mô hì
 
 # **Tài liệu tham khảo**
 
-1. *Universal Dependencies v2* – [https://universaldependencies.org](https://universaldependencies.org)
-2. PyTorch Documentation – RNN Module
-   [https://pytorch.org/docs/stable/generated/torch.nn.RNN.html](https://pytorch.org/docs/stable/generated/torch.nn.RNN.html)
-3. PyTorch – Embedding Layer
-   [https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html](https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html)
-4. CoNLL-U Format Specification
-   [https://universaldependencies.org/format.html](https://universaldependencies.org/format.html)
-5. Jurafsky & Martin – *Speech and Language Processing* (Chapter: Sequence Labeling)
-6. Stanford CS224N – *Recurrent Neural Networks for NLP*
+## Tài liệu tham khảo
+
+1. Universal Dependencies v2 – [https://universaldependencies.org](https://universaldependencies.org)  
+2. PyTorch Documentation – RNN Module – [https://pytorch.org/docs/stable/generated/torch.nn.RNN.html](https://pytorch.org/docs/stable/generated/torch.nn.RNN.html)  
+3. PyTorch Documentation – Embedding Layer – [https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html](https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html)  
+4. CoNLL-U Format Specification – [https://universaldependencies.org/format.html](https://universaldependencies.org/format.html)  
+
+5. Stanford CS224N – *Recurrent Neural Networks for NLP* (lecture notes)  
+
+6. Pedregosa, F. et al. (2011). *Scikit-learn: Machine Learning in Python*. Journal of Machine Learning Research, 12, 2825–2830.  
+    - Sử dụng TF-IDF và Logistic Regression trong Python.
+
+7. OpenAI (2023). *ChatGPT: Optimizing Language Models for Dialogue*.  
+    - Giới thiệu mô hình ngôn ngữ lớn (LLM) và ứng dụng chatbot, embeddings và sequence modeling.
+
+8. Documentation:
+    - [PyTorch Official Documentation](https://pytorch.org/docs/stable/index.html)  
+    - [TensorFlow/Keras Documentation](https://www.tensorflow.org/api_docs)  
+    - [Scikit-learn Documentation](https://scikit-learn.org/stable/documentation.html)
