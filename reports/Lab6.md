@@ -25,7 +25,7 @@ labs/lab5_2/lab5_pytorch_intro.py
 cd nlp-labs
 
 # Chạy Lab 5
- -m labs.lab5.lab5_pytorch_intro
+ python -m labs.lab5_2.lab5_pytorch_intro
 ```
 
 
@@ -397,7 +397,7 @@ labs/lab5_2/lab5_rnns_text_classification.py
 cd nlp-labs
 
 # Chạy Lab 5
- -m labs.lab5.lab5_rnns_text_classification
+ python -m labs.lab5_2.lab5_rnns_text_classification
 ```
 
 
@@ -1038,7 +1038,7 @@ labs/lab5_2/lab5_rnn_pos_tagging.py
 Bạn có thể chạy toàn bộ pipeline (load dữ liệu => train => evaluate => test câu mới) bằng:
 
 ```
- -m labs.lab5.lab5_rnn_pos_tagging
+ python -m labs.lab5_2.lab5_rnn_pos_tagging
 ```
 
 Lệnh trên sẽ:
