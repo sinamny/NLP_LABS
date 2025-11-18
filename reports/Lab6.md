@@ -17,7 +17,7 @@ Bài lab này giúp sinh viên làm quen với PyTorch – một trong những t
 Tất cả mã nguồn được đặt trong:
 
 ```
-labs/lab5/lab5_pytorch_intro.py
+labs/lab5_2/lab5_pytorch_intro.py
 ```
 
 ```bash
@@ -389,7 +389,7 @@ Qua Lab 5:
 Tất cả mã nguồn được đặt trong:
 
 ```
-labs/lab5/lab5_rnns_text_classification.py
+labs/lab5_2/lab5_rnns_text_classification.py
 ```
 
 ```bash
@@ -1032,7 +1032,7 @@ def predict_sentence(model, sentence, word_to_ix, tag_to_ix, device='cpu'):
 Tất cả mã nguồn được đặt trong:
 
 ```
-labs/lab5/lab5_rnn_pos_tagging.py
+labs/lab5_2/lab5_rnn_pos_tagging.py
 ```
 
 Bạn có thể chạy toàn bộ pipeline (load dữ liệu => train => evaluate => test câu mới) bằng:
