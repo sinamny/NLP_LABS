@@ -1,4 +1,4 @@
-# **LAB 6: PyTorch Introduction**
+# **Lab 5: PyTorch Introduction**
 
 ## **1. Mục tiêu**
 
@@ -17,15 +17,15 @@ Bài lab này giúp sinh viên làm quen với PyTorch – một trong những t
 Tất cả mã nguồn được đặt trong:
 
 ```
-labs/lab6/lab6_pytorch_intro.py
+labs/lab5/lab5_pytorch_intro.py
 ```
 
 ```bash
 # Mở terminal tại thư mục gốc của dự án nlp-labs
 cd nlp-labs
 
-# Chạy lab 6
- -m labs.lab6.lab6_pytorch_intro
+# Chạy Lab 5
+ -m labs.lab5.lab5_pytorch_intro
 ```
 
 
@@ -366,7 +366,7 @@ Model output shape: torch.Size([1, 4, 2]) Model output: tensor([[[ 0.1115, 0.049
 
 # **3. Kết luận**
 
-Qua LAB 6:
+Qua Lab 5:
 
 * Hiểu cách tạo và thao tác tensor.
 * Sử dụng được Autograd để tính gradient tự động.
@@ -374,7 +374,7 @@ Qua LAB 6:
 * Xây dựng được một mô hình đơn giản kế thừa từ `nn.Module`.
 
 
-# **LAB 6: Phân loại Văn bản với Mạng Nơ-ron Hồi quy (RNN/LSTM)**
+# **Lab 5: Phân loại Văn bản với Mạng Nơ-ron Hồi quy (RNN/LSTM)**
 ## **Mục tiêu**
 - Hiểu rõ hạn chế của các mô hình phân loại văn bản truyền thống (Bag-of-Words, Word2Vec trung bình).
 - Nắm vững kiến trúc và luồng hoạt động của pipeline sử dụng RNN/LSTM cho bài toán phân loại văn bản.
@@ -389,15 +389,15 @@ Qua LAB 6:
 Tất cả mã nguồn được đặt trong:
 
 ```
-labs/lab6/lab6_rnns_text_classification.py
+labs/lab5/lab5_rnns_text_classification.py
 ```
 
 ```bash
 # Mở terminal tại thư mục gốc của dự án nlp-labs
 cd nlp-labs
 
-# Chạy lab 6
- -m labs.lab6.lab6_rnns_text_classification
+# Chạy Lab 5
+ -m labs.lab5.lab5_rnns_text_classification
 ```
 
 
@@ -720,7 +720,7 @@ for i, ex in enumerate(examples):
    - Kích thước dữ liệu (dữ liệu lớn phù hợp LSTM/embedding, dữ liệu nhỏ phù hợp TF-IDF).  
    - Độ phức tạp của ngữ liệu (câu dài, phủ định, nhiều ý định).  
 
-# **LAB 6: – Xây dựng mô hình RNN cho bài toán Part-of-Speech Tagging**
+# **Lab 5: – Xây dựng mô hình RNN cho bài toán Part-of-Speech Tagging**
 ## **1. Mục tiêu**
 
 Bài lab này nhằm xây dựng một mô hình Recurrent Neural Network (RNN) để giải quyết bài toán Part-of-Speech (POS) Tagging trên bộ dữ liệu Universal Dependencies (UD_English-EWT).
@@ -1032,13 +1032,13 @@ def predict_sentence(model, sentence, word_to_ix, tag_to_ix, device='cpu'):
 Tất cả mã nguồn được đặt trong:
 
 ```
-labs/lab6/lab6_rnn_pos_tagging.py
+labs/lab5/lab5_rnn_pos_tagging.py
 ```
 
 Bạn có thể chạy toàn bộ pipeline (load dữ liệu => train => evaluate => test câu mới) bằng:
 
 ```
- -m labs.lab6.lab6_rnn_pos_tagging
+ -m labs.lab5.lab5_rnn_pos_tagging
 ```
 
 Lệnh trên sẽ:
