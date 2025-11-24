@@ -10,6 +10,46 @@
 - Phân tích và đánh giá sức mạnh của mô hình chuỗi trong việc “hiểu” ngữ cảnh của câu.
 
 ## **2. Hướng dẫn chạy code**
+### **2.1. Cấu trúc thư mục chính**
+
+```
+nlp-labs/
+│
+├── labs/
+│   ├── lab1/                     # Lab 1: Tokenizer
+│   ├── lab2/                     # Lab 2: Vectorizer
+│   ├── lab4/                     # Lab 4: Word embeddings
+│   ├── lab5/                     # Lab 5: Sentiment analysis & text preprocessing
+│   ├── lab5_2/                   # Lab 5 phần nâng cao
+│   │   ├── lab5_pytorch_intro.py
+│   │   ├── lab5_rnns_text_classification.py # Mã nguồn chính cho RNN Text Classification
+│   │   ├── lab5_rnn_for_ner.py   
+│   │   └── lab5_rnn_pos_tagging.py
+│   ├── lab6/                     # Lab 6: Language Modeling
+│   └── __init__.py
+```
+
+> **Chú thích:**
+>
+> * Tất cả mã nguồn của Lab 5 (bao gồm RNN for NER) nằm trong `labs/lab5_2`.
+> * File chính chạy trực tiếp: `lab5_rnns_text_classification.py`.
+
+### **2.2. Cài đặt môi trường (sử dụng `requirements.txt`)**
+
+1. Tạo môi trường Python (Python ≥ 3.10):
+
+```bash
+python -m venv nlp-lab-env
+source nlp-lab-env/bin/activate   # Linux/Mac
+nlp-lab-env\Scripts\activate      # Windows
+```
+
+2. Cài đặt tất cả thư viện từ `requirements.txt`:
+
+```bash
+pip install -r requirements.txt
+```
+### **2.3. Chạy Lab 5: RNN Token Classification**
 Tất cả mã nguồn được đặt trong:
 
 ```
@@ -23,7 +63,6 @@ cd nlp-labs
 # Chạy Lab 5
  python -m labs.lab5_2.lab5_rnns_text_classification
 ```
-
 
 ## **3. Bộ dữ liệu**
 - Sử dụng tập dữ liệu hwu.tar.gz, gồm các câu truy vấn người dùng và nhãn intent tương ứng.
@@ -57,7 +96,8 @@ num_classes = len(le.classes_)
 
 > Giải thích: `LabelEncoder` chuyển nhãn intent từ dạng text sang dạng số để mô hình ML/DL có thể xử lý.
 
-## **5. Task 1: Pipeline TF-IDF + Logistic Regression**
+## **4. Các bước thực hiện**
+### **Task 1: Pipeline TF-IDF + Logistic Regression**
 - Mục tiêu: Tạo baseline đơn giản để so sánh với mô hình sâu.
 
 - Đặc điểm:
@@ -96,7 +136,7 @@ f1_tfidf = f1_score(y_test, y_pred_tfidf, average='macro')
 
 > Giải thích: TF-IDF bỏ qua thứ tự từ, chỉ dựa vào tần suất từ, do đó khó xử lý các câu có phủ định hoặc ngữ cảnh phức tạp.
 
-## **6. Task 2: Word2Vec + Dense Layer**
+### **Task 2: Word2Vec + Dense Layer**
 - Mục tiêu: Sử dụng vector dense để biểu diễn từ. Dùng mạng nơ-ron đơn giản để phân loại
 * Mỗi từ được biểu diễn bằng vector Word2Vec. 
 * Vector của câu = trung bình các vector từ. => Mất thứ tự 
@@ -150,7 +190,7 @@ f1_w2v = f1_score(y_test, y_pred_dense, average='macro')
 
 > Giải thích: Mô hình này có vector dày đặc (dense vector), nhưng vẫn bỏ qua thứ tự từ trong câu.
 
-## **7. Task 3: Embedding Pre-trained + LSTM**
+### **Task 3: Embedding Pre-trained + LSTM**
 
 * Sử dụng Word2Vec đã huấn luyện làm **pre-trained embedding**.
 * LSTM xử lý chuỗi, giữ thông tin về thứ tự từ và ngữ cảnh.
@@ -208,7 +248,7 @@ f1_lstm_pre = f1_score(y_test, y_pred_lstm_pre, average='macro')
 
 > Giải thích: Pre-trained embeddings giúp mô hình hiểu nghĩa của từ tốt hơn ngay từ đầu; LSTM giữ được thông tin về thứ tự và ngữ cảnh của câu.
 
-## **8. Task 4: Embedding học từ đầu + LSTM**
+### **Task 4: Embedding học từ đầu + LSTM**
 
 * Embedding layer được học từ đầu, không dùng ma trận pre-trained.
 
@@ -231,8 +271,8 @@ f1_lstm_scratch = f1_score(y_test, y_pred_lstm_scratch, average='macro')
 
 > Giải thích: Mô hình tự học embeddings từ dữ liệu, có thể thích ứng tốt với dữ liệu chuyên biệt nhưng cần nhiều epoch để hội tụ.
 
-## **9. Task 5: Đánh giá, so sánh và phân tích**
-### **1. So sánh định lượng**
+### Task 5: Đánh giá, so sánh và phân tích**
+#### **1. So sánh định lượng**
  Bảng so sánh hiệu năng 4 pipeline
 
 | Pipeline                        | F1-score (Macro) | Test Loss  |
@@ -255,7 +295,7 @@ f1_lstm_scratch = f1_score(y_test, y_pred_lstm_scratch, average='macro')
 
 4. LSTM học embedding từ đầu tệ nhất (~0.0005 F1), loss cao nhất (~4.13). Do mô hình khởi tạo embeddings từ đầu cần rất nhiều dữ liệu để hội tụ, mà tập dữ liệu nhỏ nên không học được representations tốt.
 
-### **2. Phân tích định tính**
+#### **2. Phân tích định tính**
 
 ```python
 examples = [
@@ -291,7 +331,7 @@ for i, ex in enumerate(examples):
     print("Embedding Scratch + LSTM:", le.inverse_transform([preds[3][i]])[0])
 
 ```
-#### **Kết quả**
+##### **Kết quả thực hiện**
 | Example sentence                                         | True Label       | TF-IDF + LR     | Word2Vec Avg + Dense | Embedding Pre-trained + LSTM | Embedding Scratch + LSTM |
 |----------------------------------------------------------|-----------------|----------------|---------------------|------------------------------|--------------------------|
 | sorry but i think you've got that not right             | general_negate  | general_negate | general_negate      | general_affirm               | cooking_recipe           |
@@ -328,7 +368,68 @@ for i, ex in enumerate(examples):
   - Thêm kỹ thuật như attention hoặc Transformer để xử lý thông tin xa.
 
 > Nhìn chung, dữ liệu nhỏ khiến mô hình phức tạp như LSTM không thể vượt trội hơn mô hình TF-IDF + LR đơn giản trong các ví dụ có ngữ cảnh phức tạp.
-## 10. Kết luận
+
+## **5. Khó khăn và giải pháp**
+
+### **1. Khó khăn gặp phải**
+
+1. **Dữ liệu nhỏ và phân bố nhãn không đều**
+
+   * LSTM và embedding học từ đầu cần nhiều dữ liệu để học thứ tự từ và ngữ cảnh.
+   * Một số nhãn ít xuất hiện dẫn đến mô hình không học được pattern, dễ overfit.
+
+2. **Xử lý phủ định và cấu trúc câu phức tạp**
+
+   * Word2Vec trung bình bỏ qua thứ tự từ.
+   * LSTM nhỏ, dữ liệu hạn chế, khó nắm được mối quan hệ từ xa trong câu.
+
+3. **Khởi tạo embeddings từ đầu**
+
+   * Embedding học từ dữ liệu nhỏ dẫn đến F1 rất thấp và quá trình huấn luyện chậm.
+
+4. **Câu dài và giới hạn padding**
+
+   * Giới hạn `max_len=50` có thể cắt mất thông tin quan trọng.
+   * Một số câu chứa nhiều ý định bị mất bớt thông tin khi padding/truncating.
+
+5. **Chọn hyperparameters và tránh overfitting**
+
+   * Số lượng neuron, dropout, batch size, epochs cần cân nhắc kỹ.
+   * LSTM dễ overfit khi dữ liệu ít.
+
+### **2. Giải pháp áp dụng**
+
+1. **Sử dụng mô hình baseline mạnh với dữ liệu nhỏ**
+
+   * TF-IDF + Logistic Regression ổn định và nhanh, đặc biệt trên tập dữ liệu nhỏ.
+
+2. **Tăng kích thước dữ liệu hoặc augment data**
+
+   * Thêm các câu biến thể, dịch ngược (back-translation) hoặc synonym replacement.
+   * Giúp LSTM học tốt thứ tự từ và ngữ cảnh.
+
+3. **Sử dụng pre-trained embeddings phù hợp domain**
+
+   * Chọn embeddings từ corpus lớn cùng lĩnh vực (vd: domain-specific Word2Vec hoặc GloVe).
+   * Giảm thời gian học embedding, cải thiện chất lượng dự đoán.
+
+4. **Thử nghiệm các kiến trúc nâng cao**
+
+   * Bi-directional LSTM để nắm cả ngữ cảnh trước và sau từ.
+   * Attention hoặc Transformer giúp học mối quan hệ từ xa trong câu dài.
+
+5. **Điều chỉnh hyperparameters hợp lý**
+
+   * EarlyStopping để tránh overfitting.
+   * Dropout và batch normalization hỗ trợ ổn định khi huấn luyện.
+
+6. **Giám sát định tính và định lượng**
+
+   * Kiểm tra dự đoán trên các câu có phủ định, câu dài hoặc câu phức tạp để đánh giá mô hình thực tế.
+
+> Nhìn chung, lựa chọn mô hình và chiến lược huấn luyện cần cân bằng giữa kích thước dữ liệu, độ phức tạp câu, và tài nguyên huấn luyện.
+
+## 6. Kết luận
 ### Nhận xét chung về ưu và nhược điểm của các phương pháp
 
 | Phương pháp                       | Ưu điểm                                                                 | Nhược điểm                                                                                     |
@@ -344,7 +445,7 @@ for i, ex in enumerate(examples):
    - Kích thước dữ liệu (dữ liệu lớn phù hợp LSTM/embedding, dữ liệu nhỏ phù hợp TF-IDF).  
    - Độ phức tạp của ngữ liệu (câu dài, phủ định, nhiều ý định).  
 
-## 11. Tài liệu tham khảo
+## 7. Tài liệu tham khảo
 1. **Mikolov, T., Chen, K., Corrado, G., & Dean, J.** (2013).
    *Efficient Estimation of Word Representations in Vector Space.*
    arXiv:1301.3781.
