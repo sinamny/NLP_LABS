@@ -185,86 +185,6 @@ Biểu diễn toàn bộ một câu hoặc đoạn văn bằng trung bình cộn
 
 2. **Thực nghiệm:**
    Biểu diễn câu `"The queen rules the country."` để thu được vector trung bình của toàn câu.
-
-### **Hướng dẫn chạy code task 1, 2, 3**
-
-1. Mở terminal tại thư mục gốc dự án `nlp-labs`.
-2. Chạy lệnh:
-
-   ```bash
-   python -m labs.lab4.lab4_test
-   ```
-3. Kết quả sẽ in ra màn hình gồm:
-
-   * Vector của từ “king”
-   * Độ tương đồng giữa các cặp từ
-   * Top 10 từ gần “computer”
-   * Vector biểu diễn câu “The queen rules the country.”
-
-### **Kết quả chạy thực tế task 1, 2, 3**
-
-```
-Mô hình `glove-wiki-gigaword-50` đã được tải.
-
-Vector for 'king':
-[ 0.50451   0.68607  -0.59517  -0.022801  0.60046  -0.13498  -0.08813
-  0.47377  -0.61798  -0.31012  -0.076666  1.493    -0.034189 -0.98173
-  0.68229   0.81722  -0.51874  -0.31503  -0.55809   0.66421   0.1961 
- -0.13495  -0.11476  -0.30344   0.41177  -2.223    -1.0756   -1.0783 
- -0.34354   0.33505   1.9927   -0.04234  -0.64319   0.71125   0.49159
-  0.16754   0.34344  -0.25663  -0.8523    0.1661    0.40102   1.1685 
- -1.0137   -0.21585  -0.15155   0.78321  -0.91241  -1.6106   -0.64426
- -0.51042 ]
-
-Similarity (king, queen): 0.7839
-Similarity (king, man):   0.5309
-
-Top 10 most similar to 'computer':
-computers       0.9165
-software        0.8815
-technology      0.8526
-electronic      0.8126
-internet        0.8060
-computing       0.8026
-devices         0.8016
-digital         0.7992
-applications    0.7913
-pc              0.7883
-
-Document embedding for 'The queen rules the country.':
-[ 0.0456  0.3653 -0.5597  0.0401  0.0966  0.1562 -0.3362 -0.1249 -0.0103 ... ]
-```
-
-### **Phân tích kết quả task 1, 2, 3**
-
-#### 1. **Độ tương đồng và từ đồng nghĩa**
-
-| Cặp từ       | Cosine Similarity | Nhận xét                                                         |
-| ------------ | ----------------- | ---------------------------------------------------------------- |
-| king – queen | 0.7839        | Rất cao, biểu thị mối quan hệ “nam – nữ” cùng vai trò hoàng gia. |
-| king – man   | 0.5309        | Thấp hơn, vì “man” chỉ giới tính, không thể hiện quyền lực.      |
-
-=> Mô hình GloVe pre-trained thể hiện tốt các mối quan hệ ngữ nghĩa logic, phù hợp với kỳ vọng.
-
-#### 2. **Các từ tương đồng nhất với “computer”**
-
-Tất cả các từ được tìm thấy đều thuộc cùng miền ngữ nghĩa:
-
-> *computers, software, technology, internet, hardware, digital...*
-
-=> Cho thấy embedding đã học được ngữ cảnh chủ đề (semantic field) chứ không chỉ nghĩa từ điển.
-=> Mô hình pre-trained vượt trội rõ rệt trong cả chất lượng lẫn tính khái quát ngữ nghĩa.
-
-#### 3. **Khó khăn và giải pháp**
-
-| Vấn đề gặp phải                                           | Cách giải quyết                                           |
-| --------------------------------------------------------- | --------------------------------------------------------- |
-| Mạng yếu khiến `gensim.downloader.load` lỗi               | Dùng mirror hoặc tải trước mô hình và nạp từ cache        |
-| Tokenizer không nhận dạng đúng từ viết hoa/ký tự đặc biệt | Chuẩn hóa token về chữ thường, bỏ ký hiệu không cần thiết |
-| Một số từ không có trong vocab (OOV)                      | Trả về vector 0 và thông báo “OOV” để tránh lỗi           |
-| Mất nhiều thời gian khi hiển thị toàn bộ vector           | Chỉ in rút gọn (hiển thị vài phần tử đầu tiên)            |
-
-
 ### Bonus Task: Huấn luyện Word2Vec từ dữ liệu EWT
 
 #### **Mục tiêu**
@@ -337,72 +257,6 @@ Tất cả các từ được tìm thấy đều thuộc cùng miền ngữ ngh�
     model.wv.similarity("king", "queen")
     
     ```
-#### **Hướng dẫn chạy code**
-
-1.  Chạy script huấn luyện Word2Vec:
-    
-
-```bash
-python -m labs.lab4.lab4_embedding_training_demo
-
-```
-
-2.  Kết quả hiển thị số câu đọc được, tiến trình huấn luyện, lưu mô hình và kiểm tra từ đồng nghĩa.  
-
-#### **Kết quả thực tế**
-
-```
-Đọc dữ liệu huấn luyện.
-Số câu đọc được: 14225
-
-Huấn luyện mô hình Word2Vec (Skip-gram)
-
-Lưu mô hình
-Mô hình đã được lưu tại results/word2vec_ewt.model.
-
-Kiểm tra mô hình:
-Top 10 từ tương tự 'computer':
-Word           Similarity
--------------------------
-image              0.9976
-fear               0.9971
-bed                0.9968
-sake               0.9965
-initial            0.9965
-complete           0.9964
-girlfriend         0.9964
-linda              0.9963
-apparently         0.9962
-receive            0.9962
-Similarity(king, queen): 0.9939
-
-```
-#### **Phân tích kết quả**
-
--   **Độ tương đồng và từ đồng nghĩa:**
-    
-    -   Các từ tương tự “computer” trong dữ liệu huấn luyện nhỏ có thể không phải đều liên quan công nghệ như mô hình pre-trained (ví dụ: “image”, “fear”, “bed”).
-        
-    -   Độ tương đồng `king–queen` cao (0.9939) => mô hình học được quan hệ ngữ nghĩa từ corpus nhỏ, nhưng kết quả có thể **bị lệch do dataset hạn chế**.
-        
--   **So sánh với mô hình pre-trained:**
-    
-    -   Pre-trained embedding (GloVe) có vector 50 chiều, huấn luyện trên Wikipedia + Gigaword => các từ đồng nghĩa, quan hệ ngữ nghĩa rõ ràng hơn.
-        
-    -   Mô hình tự huấn luyện chỉ trên ~14k câu => chất lượng từ đồng nghĩa kém hơn, dễ xuất hiện các từ không liên quan.
-        
--   **Khó khăn và giải pháp:**
-    
-    -   **Vấn đề:** Dataset nhỏ => từ đồng nghĩa không chính xác.
-        
-    -   **Giải pháp:**
-        
-        -   Huấn luyện trên corpus lớn hơn nếu muốn model chất lượng.
-            
-        -   Điều chỉnh `min_count` và `vector_size` để cân bằng tốc độ và chất lượng.
-            
-        -   Kiểm tra OOV khi sử dụng từ không xuất hiện trong corpus.
-
 ### **Advanced Task: Scaling Word2Vec with Apache Spark**
 
 #### **Mục tiêu**
@@ -501,7 +355,36 @@ Sử dụng Spark để huấn luyện Word2Vec trên tập dữ liệu lớn, v
     
     -   `findSynonyms("computer", 5)` trả về 5 từ gần “computer” nhất theo cosine similarity.
 
-#### **Hướng dẫn chạy code**
+## **5. Hướng dẫn chạy code**
+### **Hướng dẫn chạy code Task 1, 2, 3**
+
+1. Mở terminal tại thư mục gốc dự án `nlp-labs`.
+2. Chạy lệnh:
+
+   ```bash
+   python -m labs.lab4.lab4_test
+   ```
+3. Kết quả sẽ in ra màn hình gồm:
+
+   * Vector của từ “king”
+   * Độ tương đồng giữa các cặp từ
+   * Top 10 từ gần “computer”
+   * Vector biểu diễn câu “The queen rules the country.”
+
+#### **Hướng dẫn chạy code Bonus Task**
+
+1.  Chạy script huấn luyện Word2Vec:
+    
+
+```bash
+python -m labs.lab4.lab4_embedding_training_demo
+
+```
+
+2.  Kết quả hiển thị số câu đọc được, tiến trình huấn luyện, lưu mô hình và kiểm tra từ đồng nghĩa.  
+
+
+#### **Hướng dẫn chạy code Advanced Task**
 
 1.  Trong môi trường ảo hoặc terminal, chạy:
     
@@ -513,7 +396,107 @@ python -m labs.lab4.lab4_spark_word2vec_demo
 
 2.  Kết quả sẽ hiển thị top 5 từ gần “computer”.
 
-#### **Kết quả thực tế**
+## **6. Kết quả thực hiện**
+### **Kết quả chạy thực tế Task 1, 2, 3**
+
+```
+Mô hình `glove-wiki-gigaword-50` đã được tải.
+
+Vector for 'king':
+[ 0.50451   0.68607  -0.59517  -0.022801  0.60046  -0.13498  -0.08813
+  0.47377  -0.61798  -0.31012  -0.076666  1.493    -0.034189 -0.98173
+  0.68229   0.81722  -0.51874  -0.31503  -0.55809   0.66421   0.1961 
+ -0.13495  -0.11476  -0.30344   0.41177  -2.223    -1.0756   -1.0783 
+ -0.34354   0.33505   1.9927   -0.04234  -0.64319   0.71125   0.49159
+  0.16754   0.34344  -0.25663  -0.8523    0.1661    0.40102   1.1685 
+ -1.0137   -0.21585  -0.15155   0.78321  -0.91241  -1.6106   -0.64426
+ -0.51042 ]
+
+Similarity (king, queen): 0.7839
+Similarity (king, man):   0.5309
+
+Top 10 most similar to 'computer':
+computers       0.9165
+software        0.8815
+technology      0.8526
+electronic      0.8126
+internet        0.8060
+computing       0.8026
+devices         0.8016
+digital         0.7992
+applications    0.7913
+pc              0.7883
+
+Document embedding for 'The queen rules the country.':
+[ 0.0456  0.3653 -0.5597  0.0401  0.0966  0.1562 -0.3362 -0.1249 -0.0103 ... ]
+```
+
+#### **Phân tích kết quả Task 1, 2, 3**
+
+##### 1. **Độ tương đồng và từ đồng nghĩa**
+
+| Cặp từ       | Cosine Similarity | Nhận xét                                                         |
+| ------------ | ----------------- | ---------------------------------------------------------------- |
+| king – queen | 0.7839        | Rất cao, biểu thị mối quan hệ “nam – nữ” cùng vai trò hoàng gia. |
+| king – man   | 0.5309        | Thấp hơn, vì “man” chỉ giới tính, không thể hiện quyền lực.      |
+
+=> Mô hình GloVe pre-trained thể hiện tốt các mối quan hệ ngữ nghĩa logic, phù hợp với kỳ vọng.
+
+##### 2. **Các từ tương đồng nhất với “computer”**
+
+Tất cả các từ được tìm thấy đều thuộc cùng miền ngữ nghĩa:
+
+> *computers, software, technology, internet, hardware, digital...*
+
+=> Cho thấy embedding đã học được ngữ cảnh chủ đề (semantic field) chứ không chỉ nghĩa từ điển.
+=> Mô hình pre-trained vượt trội rõ rệt trong cả chất lượng lẫn tính khái quát ngữ nghĩa.
+
+
+### **Kết quả thực tế Bonus Task**
+
+```
+Đọc dữ liệu huấn luyện.
+Số câu đọc được: 14225
+
+Huấn luyện mô hình Word2Vec (Skip-gram)
+
+Lưu mô hình
+Mô hình đã được lưu tại results/word2vec_ewt.model.
+
+Kiểm tra mô hình:
+Top 10 từ tương tự 'computer':
+Word           Similarity
+-------------------------
+image              0.9976
+fear               0.9971
+bed                0.9968
+sake               0.9965
+initial            0.9965
+complete           0.9964
+girlfriend         0.9964
+linda              0.9963
+apparently         0.9962
+receive            0.9962
+Similarity(king, queen): 0.9939
+
+```
+#### **Phân tích kết quả thực tế Bonus Task**
+
+-   **Độ tương đồng và từ đồng nghĩa:**
+    
+    -   Các từ tương tự “computer” trong dữ liệu huấn luyện nhỏ có thể không phải đều liên quan công nghệ như mô hình pre-trained (ví dụ: “image”, “fear”, “bed”).
+        
+    -   Độ tương đồng `king–queen` cao (0.9939) => mô hình học được quan hệ ngữ nghĩa từ corpus nhỏ, nhưng kết quả có thể **bị lệch do dataset hạn chế**.
+        
+-   **So sánh với mô hình pre-trained:**
+    
+    -   Pre-trained embedding (GloVe) có vector 50 chiều, huấn luyện trên Wikipedia + Gigaword => các từ đồng nghĩa, quan hệ ngữ nghĩa rõ ràng hơn.
+        
+    -   Mô hình tự huấn luyện chỉ trên ~14k câu => chất lượng từ đồng nghĩa kém hơn, dễ xuất hiện các từ không liên quan.
+
+
+
+### **Kết quả thực tế Advanced Task**
 
 ```
 ----------
@@ -544,7 +527,7 @@ Tìm các từ tương tự 'computer'
 
 Hoàn thành huấn luyện Spark Word2Vec
 ```
-#### **Phân tích kết quả**
+#### **Phân tích kết quả Advanced Task**
 
 -   **Độ tương đồng và từ đồng nghĩa**:
     
@@ -570,25 +553,31 @@ Hoàn thành huấn luyện Spark Word2Vec
 | Thời gian huấn luyện | Không cần                   | 3–5 phút                         |
 | Ứng dụng             | Phân tích nghĩa, tương đồng | Huấn luyện riêng cho miền cụ thể |
 
-#### **Khó khăn và giải pháp**
 
-1.  **Dữ liệu quá lớn**:
-    
-    -   Giải pháp: dùng Spark để xử lý phân tán, tránh Out-of-Memory.
-        
-2.  **Tiền xử lý text**:
-    
-    -   Tokenize, lowercase, loại bỏ ký tự đặc biệt giúp mô hình học tốt hơn.
-        
-3.  **OOV words**:
-    
-    -   Với dataset lớn, số từ OOV giảm đáng kể, embedding chất lượng hơn.
-        
-4.  **Thời gian huấn luyện**:
-    
-    -   Spark cho phép parallelization => nhanh hơn huấn luyện trên 1 máy.
+## **7. Khó khăn và giải pháp**     
+| Vấn đề gặp phải                                           | Cách giải quyết                                           |
+| --------------------------------------------------------- | --------------------------------------------------------- |
+| Mạng yếu khiến `gensim.downloader.load` lỗi               | Dùng mirror hoặc tải trước mô hình và nạp từ cache        |
+| Tokenizer không nhận dạng đúng từ viết hoa/ký tự đặc biệt | Chuẩn hóa token về chữ thường, bỏ ký hiệu không cần thiết |
+| Một số từ không có trong vocab (OOV)                      | Trả về vector 0 và thông báo “OOV” để tránh lỗi           |
+| Mất nhiều thời gian khi hiển thị toàn bộ vector           | Chỉ in rút gọn (hiển thị vài phần tử đầu tiên)            |
+| Dataset nhỏ                                               | Huấn luyện trên corpus lớn hơn nếu muốn model chất lượng |
+| Dữ liệu quá lớn                                           | Dùng Spark để xử lý phân tán, tránh Out-of-Memory       |
+| Tiền xử lý text chưa tốt                                  | Tokenize, lowercase, loại bỏ ký tự đặc biệt giúp mô hình học tốt hơn |
+| OOV words (từ ngoài vocab)                                | Kiểm tra OOV, với dataset lớn số từ OOV giảm, embedding chất lượng hơn |
+| Thời gian huấn luyện dài                                  | Spark cho phép parallelization, nhanh hơn huấn luyện trên 1 máy |
+| Tham số embedding chưa tối ưu (min_count, vector_size)   | Điều chỉnh min_count và vector_size để cân bằng tốc độ và chất lượng |
 
-## **5. Tài liệu tham khảo**
+## **8. Tổng kết**
+
+Lab này giúp hiểu rõ cách:
+
+* Sử dụng embedding pre-trained (như GloVe).
+* Tạo document embedding bằng trung bình vector.
+* Huấn luyện Word2Vec và trực quan hóa không gian từ vựng.
+* Nhìn thấy rõ mối quan hệ ngữ nghĩa giữa các từ qua hình ảnh và số liệu.
+
+## **9. Tài liệu tham khảo**
 
 -   Mikolov, T., Chen, K., Corrado, G., & Dean, J. (2013). _Efficient Estimation of Word Representations in Vector Space._ [arXiv:1301.3781](https://arxiv.org/abs/1301.3781)
     
@@ -604,11 +593,3 @@ Hoàn thành huấn luyện Spark Word2Vec
 
 - OpenAI. (2025). ChatGPT (GPT-4/5) [AI language model]. Truy cập từ https://chat.openai.com
 
-## **6. Tổng kết**
-
-Lab này giúp hiểu rõ cách:
-
-* Sử dụng embedding pre-trained (như GloVe).
-* Tạo document embedding bằng trung bình vector.
-* Huấn luyện Word2Vec và trực quan hóa không gian từ vựng.
-* Nhìn thấy rõ mối quan hệ ngữ nghĩa giữa các từ qua hình ảnh và số liệu.

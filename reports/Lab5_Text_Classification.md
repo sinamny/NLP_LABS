@@ -1,6 +1,6 @@
 # Lab 5: Text Classification
 
-## Mục tiêu
+## 1. Mục tiêu
 
 Xây dựng pipeline phân loại văn bản hoàn chỉnh — từ dữ liệu thô đến mô hình học máy huấn luyện xong — sử dụng các kỹ thuật tokenization và vectorization đã học ở các lab trước.
 
@@ -11,11 +11,80 @@ Mục tiêu cụ thể:
 * Đánh giá mô hình bằng các metric cơ bản.
 * Triển khai pipeline tương tự trên PySpark cho dữ liệu lớn.
 
+## 2. Hướng dẫn chạy code
 
+### 2.1. Cấu trúc thư mục chính
+```
+lab5/
+ ┣ lab5_improvement_test_naivebayes.py
+ ┣ lab5_improvement_test_preprocessing.py
+ ┣ lab5_improvement_test_word2vec.py
+ ┣ lab5_spark_sentiment_analysis.py
+ ┣ lab5_test.py
+ ┣ task1_data_preparation.py
+ ┗ __init__.py
+ ```
+### **2.2. Cài đặt môi trường (sử dụng `requirements.txt`)**
 
-## Task 1: Data Preparation (Scikit-learn)
+1. Tạo môi trường Python (Python ≥ 3.10):
 
-### Dataset
+```bash
+python -m venv nlp-lab-env
+source nlp-lab-env/bin/activate   # Linux/Mac
+nlp-lab-env\Scripts\activate      # Windows
+```
+
+2. Cài đặt tất cả thư viện từ `requirements.txt`:
+
+```bash
+pip install -r requirements.txt
+```
+### 2.3. Chạy Lab 5: Text Classification
+```bash
+# Mở terminal tại thư mục gốc của dự án nlp-labs
+cd nlp-labs
+```
+#### 1. Task 1: Data Preparation (Scikit-learn)
+
+```bash
+python -m labs.lab5.task1_data_preparation
+
+```
+#### 2\. Task 2: TextClassifier
+```bash
+python -m labs.lab5.lab5_test
+
+```
+#### 3\. Advanced Example: PySpark Sentiment Analysis
+```bash
+python -m labs.lab5.lab5_spark_sentiment_analysis
+
+```
+#### 4\. Task 4: Evaluating and Improving Model Performance
+- Improved Preprocessing (TF-IDF):
+
+```bash
+python -m labs.lab5.lab5_improvement_test_preprocessing
+
+```
+- Word2Vec Embedding + Logistic Regression:
+
+```bash
+python -m labs.lab5.lab5_improvement_test_word2vec
+
+```
+- Naive Bayes Classifier (TF-IDF):
+
+```bash
+python -m labs.lab5.lab5_improvement_test_naivebayes
+
+```
+
+## 3. Các bước thực hiện và phân tích kết quả
+
+### Task 1: Data Preparation (Scikit-learn)
+
+#### Dataset
 
 ```python
 texts = [
@@ -29,12 +98,12 @@ texts = [
 labels = [1, 0, 1, 0, 1, 0]
 ```
 
-### Mục tiêu
+#### Mục tiêu
 
 * Chuẩn bị dữ liệu văn bản và nhãn.
 * Biến đổi văn bản thành dạng vector số dùng TfidfVectorizer hoặc CountVectorizer.
 
-### Các bước thực hiện
+#### Các bước thực hiện
 
 1. Tạo dataset nhỏ trong bộ nhớ để dễ kiểm tra:
 
@@ -65,7 +134,7 @@ Giải thích các hàm:
 * `TfidfVectorizer()`: chuyển văn bản thành ma trận số với trọng số TF-IDF (term frequency-inverse document frequency).
 * `fit_transform(texts)`: học từ vựng từ corpus và chuyển tất cả văn bản thành vector số.
 
-### Hướng dẫn chạy code
+#### Hướng dẫn chạy code
 
 * Mở terminal tại thư mục gốc dự án nlp-labs.
 * Chạy:
@@ -74,29 +143,29 @@ Giải thích các hàm:
 python -m labs.lab5.task1_data_preparation
 ```
 
-### Kết quả mẫu
+#### Kết quả mẫu
 
 ```python
 print(X.shape)
 # (6, 23)  # 6 văn bản, 23 từ đặc trưng
 ```
 
-### Phân tích
+#### Phân tích
 
 * Ma trận X có chiều (số văn bản, số từ đặc trưng).
 * Các từ ít xuất hiện trong corpus sẽ có trọng số thấp.
 * Đây là bước chuẩn bị dữ liệu đầu vào cho mô hình học máy.
 
-## Task 2: Implementing the TextClassifier
+### Task 2: Implementing the TextClassifier
 
 File: `src/models/text_classifier.py`
 
-### Mục tiêu
+#### Mục tiêu
 
 * Xây dựng lớp `TextClassifier` để huấn luyện và dự đoán văn bản bằng Logistic Regression.
 * Cung cấp các phương thức: `fit`, `predict`, `evaluate`.
 
-### Các bước thực hiện
+#### Các bước thực hiện
 
 1. Tạo file: `src/models/text_classifier.py`
 
@@ -151,16 +220,16 @@ Giải thích các hàm:
 * `accuracy_score`, `precision_score`, `recall_score`, `f1_score`: các hàm đánh giá hiệu quả mô hình.
 
 
-## Task 3: Basic Evaluation
+### Task 3: Basic Evaluation
 
 File: `labs/lab5/lab5_test.py`
 
-### Mục tiêu
+#### Mục tiêu
 
 * Chia dữ liệu thành tập huấn luyện và kiểm tra.
 * Huấn luyện và đánh giá TextClassifier.
 
-### Các bước thực hiện
+#### Các bước thực hiện
 
 1. Tạo file `labs/lab5/lab5_test.py`:
 
@@ -195,33 +264,33 @@ y_pred = classifier.predict(X_test)
 metrics = classifier.evaluate(y_test, y_pred)
 print("Evaluation metrics: ", metrics)
 ```
-### Hướng dẫn chạy code
+#### Hướng dẫn chạy code
 
 ```bash
 python -m labs.lab5.lab5_test
 ```
 
-### Kết quả 
+#### Kết quả 
 ```
 Evaluation metrics: {'accuracy': 0.5, 'precision': 0.5, 'recall': 1.0, 'f1_score': 0.6666}
 ```
 
-### Phân tích
+#### Phân tích
 
 * Do số lượng test sample ít, accuracy chỉ đạt 0.5.
 * F1-score cho thấy sự cân bằng giữa precision và recall.
 * Đây là bước kiểm tra cơ bản pipeline.
 
-## Advanced Example: Sentiment Analysis with PySpark
-### Mục tiêu
+### Advanced Example: Sentiment Analysis with PySpark
+#### Mục tiêu
 
 * Xây dựng pipeline phân loại văn bản dùng PySpark cho dataset lớn.
 * Thực hiện tokenization, stopwords removal, TF-IDF, Logistic Regression.
 
 File: `labs/lab5/lab5_spark_sentiment_analysis.py`
 
-### Các bước thực hiện
-#### Tạo file `labs/lab5/lab5_spark_sentiment_analysis.py`:
+#### Các bước thực hiện
+##### Tạo file `labs/lab5/lab5_spark_sentiment_analysis.py`:
 
 ```python
 from pyspark.sql import SparkSession
@@ -278,12 +347,12 @@ Giải thích các hàm:
 * `LogisticRegression`: huấn luyện mô hình phân loại.
 * `MulticlassClassificationEvaluator`: đánh giá độ chính xác hoặc F1-score.
 
-### Hướng dẫn chạy code
+#### Hướng dẫn chạy code
 
 ```bash
 python -m labs.lab5.lab5_spark_sentiment_analysis
 ```
-### Kết quả 
+#### Kết quả 
 
 ```
 Regression Model:
@@ -292,21 +361,21 @@ F1-score: 0.7295
 ```
 
 
-### Phân tích
+#### Phân tích
 
 * Mô hình đạt accuracy xấp xỉ 0.73, cho thấy pipeline Logistic Regression + TF-IDF hoạt động ổn định trên dataset này.
 * Spark xử lý dữ liệu phân tán, tránh đầy RAM.
 * Có thể cải thiện bằng Word2Vec hoặc Naive Bayes.
 
-## Task 4: Evaluating and Improving Model Performance
+### Task 4: Evaluating and Improving Model Performance
 
-### Mục tiêu
+#### Mục tiêu
 
 * Xây dựng pipeline phân loại văn bản từ dữ liệu sentiment thô đến dự đoán nhãn.
 * Thử nghiệm các phương pháp cải thiện hiệu năng mô hình: Improved Preprocessing, Word2Vec Embedding, Naive Bayes.
 * So sánh kết quả Accuracy và F1-score giữa các phương pháp.
 
-### Các file code
+#### Các file code
 
 | Tên file                                 | Mục đích                                                        |
 | ---------------------------------------- | --------------------------------------------------------------- |
@@ -314,7 +383,7 @@ F1-score: 0.7295
 | `lab5_improvement_test_word2vec.py`      | Thử nghiệm Word2Vec embedding với Logistic Regression           |
 | `lab5_improvement_test_naivebayes.py`    | Thử nghiệm Naive Bayes với TF-IDF                               |
 
-### 1. Improved Preprocessing – TF-IDF
+#### 1. Improved Preprocessing – TF-IDF
 
 File: `lab5_improvement_test_preprocessing.py`
 
@@ -382,7 +451,7 @@ spark.stop()
 * `numFeatures` nhỏ => giảm nhiễu nhưng mất thông tin hiếm.
 * Logistic Regression là baseline tuyến tính.
 
-### 2. Word2Vec Embedding
+#### 2. Word2Vec Embedding
 
 File: `lab5_improvement_test_word2vec.py`
 
@@ -439,7 +508,7 @@ spark.stop()
 * Ưu điểm: semantic tốt hơn TF-IDF.
 * Nhược điểm: cần dữ liệu lớn để embeddings hiệu quả.
 
-## 3. Naive Bayes Classifier
+#### 3. Naive Bayes Classifier
 
 File: `lab5_improvement_test_naivebayes.py`
 
@@ -508,7 +577,7 @@ spark.stop()
 
 
 
-### Hướng dẫn chạy code
+#### Hướng dẫn chạy code
 
 ```bash
 # 1. Improved Preprocessing
@@ -521,7 +590,7 @@ python -m labs.lab5.lab5_improvement_test_word2vec
 python -m labs.lab5.lab5_improvement_test_naivebayes
 ```
 
-### Kết quả và so sánh
+#### Kết quả và so sánh
 
 | Model / Method                             | Accuracy | F1-score | Nhận xét ngắn                                         |
 | ------------------------------------------ | -------: | -------: | ----------------------------------------------------- |
@@ -532,7 +601,7 @@ python -m labs.lab5.lab5_improvement_test_naivebayes
 | Naive Bayes (TF-IDF)                       |   0.7295 |   0.7323 | Đơn giản, hiệu quả tương đương Logistic Regression    |
 
 
-### Phân tích kết quả
+#### Phân tích kết quả
 
 1. Improved Preprocessing giúp tăng Accuracy và F1-score so với baseline vì dữ liệu sạch hơn và số feature hợp lý (10000).
 2. NumFeatures quá nhỏ (5000) dẫn đến mất thông tin hiếm => Accuracy giảm.
@@ -540,13 +609,7 @@ python -m labs.lab5.lab5_improvement_test_naivebayes
 4. Naive Bayes vẫn là mô hình đơn giản nhưng hiệu quả tương đương Logistic Regression, chứng tỏ TF-IDF đã cung cấp feature đủ mạnh.
 
 
-**Kết luận:**
-
-* Preprocessing và feature selection là bước quan trọng nhất trong Task này.
-* Word2Vec hoặc mô hình phức tạp chỉ nên dùng với dữ liệu lớn.
-* Logistic Regression + TF-IDF (numFeatures=10000) là baseline mạnh, dễ triển khai.
-
-### Khó khăn và giải pháp
+## 4. Khó khăn và giải pháp
 * Khó khăn: 
     * Dữ liệu thô có nhiều ký tự đặc biệt, chữ hoa/chữ thường, link, số, dấu câu…
     * Các từ không mang nghĩa (stopwords) làm nhiễu mô hình.
@@ -560,7 +623,14 @@ python -m labs.lab5.lab5_improvement_test_naivebayes
     * Dùng numFeatures vừa phải, cân bằng giữa giữ thông tin và giảm nhiễu.
 
     * TF-IDF + Logistic Regression là baseline ổn định cho dataset nhỏ.
-## Tài liệu tham khảo
+
+## 5.Kết luận:
+
+* Preprocessing và feature selection là bước quan trọng nhất trong Task này.
+* Word2Vec hoặc mô hình phức tạp chỉ nên dùng với dữ liệu lớn.
+* Logistic Regression + TF-IDF (numFeatures=10000) là baseline mạnh, dễ triển khai.
+
+## 6. Tài liệu tham khảo
 
 * Scikit-learn Documentation: [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html)
 * Apache Spark MLlib Guide: [https://spark.apache.org/docs/latest/ml-guide.html](https://spark.apache.org/docs/latest/ml-guide.html)

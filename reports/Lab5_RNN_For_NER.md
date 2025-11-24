@@ -22,7 +22,6 @@ B-ORG O B-PER O O B-LOC O
 ```
 ## 3. Hướng dẫn chạy code
 ### **3.1. Cấu trúc thư mục chính**
-
 ```
 nlp-labs/
 │
