@@ -27,7 +27,73 @@ Một mẫu:
 3   AP      PROPN
 4   comes   VERB
 ```
-## **3. Các bước triển khai**
+
+## 3. Hướng dẫn chạy code
+### **3.1. Cấu trúc thư mục chính**
+
+```
+nlp-labs/
+│
+├── labs/
+│   ├── lab1/                     # Lab 1: Tokenizer
+│   ├── lab2/                     # Lab 2: Vectorizer
+│   ├── lab4/                     # Lab 4: Word embeddings
+│   ├── lab5/                     # Lab 5: Sentiment analysis & text preprocessing
+│   ├── lab5_2/                   # Lab 5 phần nâng cao: RNN for NER
+│   │   ├── lab5_pytorch_intro.py
+│   │   ├── lab5_rnns_text_classification.py
+│   │   ├── lab5_rnn_for_ner.py   
+│   │   └── lab5_rnn_pos_tagging.py # Mã nguồn chính cho RNN For POS Tagging
+│   ├── lab6/                     # Lab 6: Language Modeling
+│   └── __init__.py
+```
+
+> **Chú thích:**
+>
+> * Tất cả mã nguồn của Lab 5 (bao gồm RNN for NER) nằm trong `labs/lab5_2`.
+> * File chính chạy trực tiếp: `lab5_rnn_pos_tagging.py`.
+### **3.2. Cài đặt môi trường (sử dụng `requirements.txt`)**
+
+1. Tạo môi trường Python (Python ≥ 3.10):
+
+```bash
+python -m venv nlp-lab-env
+source nlp-lab-env/bin/activate   # Linux/Mac
+nlp-lab-env\Scripts\activate      # Windows
+```
+
+2. Cài đặt tất cả thư viện từ `requirements.txt`:
+
+```bash
+pip install -r requirements.txt
+```
+### **3.3. Chạy Lab 5: RNN for POS Tagging**
+Tất cả mã nguồn được đặt trong:
+
+```
+labs/lab5_2/lab5_rnn_pos_tagging.py
+```
+
+Bạn có thể chạy toàn bộ pipeline (load dữ liệu => train => evaluate => test câu mới) bằng:
+
+```
+ python -m labs.lab5_2.lab5_rnn_pos_tagging
+```
+
+Lệnh trên sẽ:
+
+1. Load dữ liệu train và dev
+2. Xây dựng vocab
+3. Tạo Dataset + DataLoader
+4. Khởi tạo mô hình RNN
+5. Huấn luyện trong số epoch định sẵn
+6. In ra:
+
+   * Train Loss từng epoch
+   * Dev Accuracy từng epoch
+7. In ví dụ dự đoán câu mới
+
+## **4. Các bước triển khai**
 ### **Task 1: Tải và tiền xử lý dữ liệu**
 #### **Mục tiêu**
 
@@ -306,31 +372,6 @@ def predict_sentence(model, sentence, word_to_ix, tag_to_ix, device='cpu'):
 
 ```
 
-## 4. Hướng dẫn chạy code
-Tất cả mã nguồn được đặt trong:
-
-```
-labs/lab5_2/lab5_rnn_pos_tagging.py
-```
-
-Bạn có thể chạy toàn bộ pipeline (load dữ liệu => train => evaluate => test câu mới) bằng:
-
-```
- python -m labs.lab5_2.lab5_rnn_pos_tagging
-```
-
-Lệnh trên sẽ:
-
-1. Load dữ liệu train và dev
-2. Xây dựng vocab
-3. Tạo Dataset + DataLoader
-4. Khởi tạo mô hình RNN
-5. Huấn luyện trong số epoch định sẵn
-6. In ra:
-
-   * Train Loss từng epoch
-   * Dev Accuracy từng epoch
-7. In ví dụ dự đoán câu mới
 
 ## **5. Kết quả**
 ### **Kết quả quá trình train 5 epoch**
@@ -371,7 +412,38 @@ I love NLP
 * `"NLP"` được gán thành VERB vì không nằm trong từ điển (OOV) => mô hình dựa vào ngữ cảnh nhưng vẫn sai.
   => Điều này cho thấy mô hình có thể còn yếu trong xử lý từ OOV và yêu cầu kỹ thuật embedding tốt hơn.
 
-#3 **6. Kết luận**
+## **6. Khó khăn và hướng giải quyết**
+
+### Khó khăn gặp phải
+
+1. **Xử lý dữ liệu CoNLL-U**
+   - Dữ liệu có nhiều comment lines và câu có độ dài khác nhau.
+   - Cần đảm bảo không bỏ sót token nào và giữ đúng thứ tự token-tag.
+
+2. **Padding và batching**
+   - Các câu có độ dài khác nhau gây khó khăn khi tạo batch.
+   - Nếu không pad đúng, CrossEntropyLoss sẽ tính toán sai hoặc báo lỗi shape mismatch.
+   
+3. **Xử lý từ OOV (Out-of-Vocabulary)**
+   - Từ không có trong vocab (`<UNK>`) dễ dẫn đến dự đoán sai.
+   - Embedding cho các từ OOV thường không đủ ngữ cảnh, ảnh hưởng accuracy.
+
+4. **Gradient và huấn luyện RNN**
+   - RNN vanilla có hạn chế trong việc học dependencies dài.
+   - Mô hình dễ gặp vấn đề vanishing/exploding gradient nếu seq_len quá dài.
+
+5. **Đánh giá và masking**
+   - Cần đảm bảo ignore padding tokens khi tính loss và accuracy.
+   - Sai sót trong mask có thể làm kết quả đánh giá không chính xác.
+
+### Hướng giải quyết
+
+- **Dữ liệu CoNLL-U:** Luôn kiểm tra số token sau khi load; loại bỏ comment và xử lý câu trống đúng cách.
+- **Padding & batching:** Sử dụng `pad_sequence` với `collate_fn` và `ignore_index=-100` cho loss.
+- **Từ OOV:** Dùng token `<UNK>` cho từ không có trong vocab; cân nhắc sử dụng pre-trained embeddings (GloVe, FastText) để cải thiện.
+- **Gradient RNN:** Giới hạn sequence length, sử dụng clip gradients, hoặc chuyển sang LSTM/BiLSTM để học dependencies dài h
+
+## **7. Kết luận**
 
 Trong bài lab này, em đã:
 
@@ -391,7 +463,7 @@ Tuy mô hình RNN vanilla còn hạn chế, bài lab đã giúp em củng cố k
 
 Kết quả đạt được khá tốt so với độ phức tạp của mô hình. Với mô hình mạnh hơn (LSTM, BiLSTM, CRF, BERT), hiệu suất sẽ tăng đáng kể.
 
-## **7. Tài liệu tham khảo**
+## **8. Tài liệu tham khảo**
 1. Universal Dependencies v2 – [https://universaldependencies.org](https://universaldependencies.org)  
 2. PyTorch Documentation – RNN Module – [https://pytorch.org/docs/stable/generated/torch.nn.RNN.html](https://pytorch.org/docs/stable/generated/torch.nn.RNN.html)  
 3. PyTorch Documentation – Embedding Layer – [https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html](https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html)  
