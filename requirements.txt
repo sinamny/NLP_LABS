@@ -16,3 +16,5 @@ tensorflow
 datasets
 evaluate
 conllu
+tensorflow_datasets 
+seqeval

@@ -213,3 +213,13 @@ tensor([[-6.3874e-02, -4.2837e-01, -6.6779e-02, -3.8430e-01, -6.5785e-02,
          -1.7534e-01, -1.2388e-01,  3.1970e-01]])
 
 Kích thước vector: torch.Size([1, 768])
+
+# Lab 5 NER
+(.venv) PS D:\My_Study\NLP> python -m labs.lab5_2.lab5_rnn_for_ner
+Số lượng từ trong vocab: 23625
+Số lượng nhãn: 10
+Epoch 1: Loss = 271.9905
+Epoch 2: Loss = 148.7129
+Epoch 3: Loss = 100.1140
+Accuracy validation: 0.9266578404267747
+[('VNU', 3), ('University', 4), ('is', 0), ('located', 0), ('in', 0), ('Hanoi', 0)]

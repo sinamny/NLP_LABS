@@ -1,29 +1,26 @@
-from datasets import load_dataset
+import tensorflow_datasets as tfds
 import torch
 from torch.utils.data import Dataset, DataLoader
 from torch.nn.utils.rnn import pad_sequence
 import torch.nn as nn
+from seqeval.metrics import classification_report, f1_score, precision_score, recall_score
 
+# Task 1: Load dữ liệu từ tfds
+ds_train, ds_val = tfds.load('conll2003', split=['train', 'dev'], as_supervised=False)
 
-# Task 1: Tải và tiền xử lý dữ liệu
-# 1. Tải dữ liệu CoNLL2003
-dataset = load_dataset("conll2003", trust_remote_code=True)
+def tfds_to_list(ds):
+    sentences, tags = [], []
+    for ex in tfds.as_numpy(ds):
+        tokens = [t.decode("utf-8") for t in ex['tokens']]
+        ner_tags = ex['ner'].tolist()  
+        sentences.append(tokens)
+        tags.append(ner_tags)
+    return sentences, tags
 
-# Trích xuất tokens và nhãn (ở dạng số)
-train_sentences = dataset["train"]["tokens"]
-train_tags = dataset["train"]["ner_tags"]
-
-val_sentences = dataset["validation"]["tokens"]
-val_tags = dataset["validation"]["ner_tags"]
-
-# 2. Chuyển nhãn số sang nhãn text
-tag_names = dataset["train"].features["ner_tags"].feature.names
-
-train_tags = [[tag_names[t] for t in seq] for seq in train_tags]
-val_tags   = [[tag_names[t] for t in seq] for seq in val_tags]
-
-# 3. Xây vocab cho từ & nhãn
-# Vocab từ: chỉ lấy từ tập train
+train_sentences, train_tags = tfds_to_list(ds_train)
+val_sentences, val_tags = tfds_to_list(ds_val)
+# Task 2: Tạo vocab cho từ và nhãn
+# Vocab từ
 word_to_ix = {"<PAD>": 0, "<UNK>": 1}
 for sent in train_sentences:
     for w in sent:
@@ -31,11 +28,19 @@ for sent in train_sentences:
             word_to_ix[w] = len(word_to_ix)
 
 # Vocab nhãn
+ner_feature = tfds.builder('conll2003').info.features['ner']
+tag_names = ner_feature.names
+
 tag_to_ix = {"<PAD>": 0}
 for seq in train_tags:
-    for tag in seq:
-        if tag not in tag_to_ix:
-            tag_to_ix[tag] = len(tag_to_ix)
+    for t in seq:
+        t_name = tag_names[t]
+        if t_name not in tag_to_ix:
+            tag_to_ix[t_name] = len(tag_to_ix)
+
+# Chuyển nhãn số sang nhãn string
+train_tags = [[tag_names[t] for t in seq] for seq in train_tags]
+val_tags   = [[tag_names[t] for t in seq] for seq in val_tags]
 
 print("Số lượng từ trong vocab:", len(word_to_ix))
 print("Số lượng nhãn:", len(tag_to_ix))
@@ -117,3 +122,102 @@ class SimpleRNNForNER(nn.Module):
         rnn_out, _ = self.rnn(emb)     # (batch, seq_len, hidden_dim)
         logits = self.fc(rnn_out)      # (batch, seq_len, num_tags)
         return logits
+
+# Task 4: Huấn luyện mô hình
+# Khởi tạo mô hình
+model = SimpleRNNForNER(
+    vocab_size=len(word_to_ix),
+    embedding_dim=128,
+    hidden_dim=128,
+    num_tags=len(tag_to_ix)
+)
+
+# Optimizer
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+
+# Loss function — bỏ qua padding tag
+criterion = nn.CrossEntropyLoss(ignore_index=PAD_TAG)
+# Training Loop
+for epoch in range(3):
+    model.train()
+    total_loss = 0
+
+    for sent_batch, tag_batch in train_loader:
+        optimizer.zero_grad()
+
+        logits = model(sent_batch)             # (B, L, num_tags)
+        logits = logits.view(-1, logits.size(-1))  
+        tags = tag_batch.view(-1)              # (B*L)
+
+        loss = criterion(logits, tags)
+        loss.backward()
+        optimizer.step()
+
+        total_loss += loss.item()
+
+    print(f"Epoch {epoch+1}: Loss = {total_loss:.4f}")
+
+# Task5: Đánh giá mô hình
+from seqeval.metrics import classification_report, f1_score, precision_score, recall_score
+
+# Mapping index => tag
+ix_to_tag = {v:k for k,v in tag_to_ix.items()}
+
+def evaluate_ner(model, loader, ix_to_tag):
+    model.eval()
+    correct, total = 0, 0
+    all_preds = []
+    all_labels = []
+
+    with torch.no_grad():
+        for sent_batch, tag_batch in loader:
+            logits = model(sent_batch)
+            preds = logits.argmax(-1)
+
+            # Tạo mask để bỏ qua padding
+            mask = tag_batch != PAD_TAG
+
+            # Accuracy token-level
+            correct += ((preds == tag_batch) & mask).sum().item()
+            total += mask.sum().item()
+
+            # Chuẩn bị dữ liệu cho seqeval
+            for i in range(sent_batch.size(0)):
+                pred_seq = []
+                label_seq = []
+                for j in range(sent_batch.size(1)):
+                    if mask[i, j]:
+                        pred_seq.append(ix_to_tag[preds[i,j].item()])
+                        label_seq.append(ix_to_tag[tag_batch[i,j].item()])
+                all_preds.append(pred_seq)
+                all_labels.append(label_seq)
+
+    acc = correct / total
+    print(f"Token-level Accuracy: {acc:.4f}")
+    print("Classification report (seqeval):")
+    print(classification_report(all_labels, all_preds))
+    print("F1-score:", f1_score(all_labels, all_preds))
+    print("Precision:", precision_score(all_labels, all_preds))
+    print("Recall:", recall_score(all_labels, all_preds))
+
+    return acc, all_preds, all_labels
+
+# Gọi evaluate
+accuracy, preds, labels = evaluate_ner(model, val_loader, ix_to_tag)
+
+
+# Hàm dự đoán câu mới
+def predict_sentence(model, sentence):
+    model.eval()
+    tokens = sentence.split()
+    ids = torch.tensor([word_to_ix.get(w, word_to_ix["<UNK>"]) for w in tokens]).unsqueeze(0)
+
+    with torch.no_grad():
+        logits = model(ids)
+        preds = logits.argmax(-1).squeeze().tolist()
+
+    return [(token, ix_to_tag[pred]) for token, pred in zip(tokens, preds)]
+
+example = "VNU University is located in Hanoi"
+prediction = predict_sentence(model, example)
+print("Ví dụ:", prediction)
