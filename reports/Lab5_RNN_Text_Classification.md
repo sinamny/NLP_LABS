@@ -49,7 +49,7 @@ nlp-lab-env\Scripts\activate      # Windows
 ```bash
 pip install -r requirements.txt
 ```
-### **2.3. Chạy Lab 5: RNN Token Classification**
+### **2.3. Chạy Lab 5: RNN Text Classification**
 Tất cả mã nguồn được đặt trong:
 
 ```
