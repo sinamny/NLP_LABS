@@ -1,6 +1,5 @@
 # Lab 5: Xây dựng mô hình RNN cho bài toán Nhận dạng Thực thể Tên (NER)
 
-
 ## 1. Mục tiêu
 - Xây dựng và huấn luyện mô hình RNN cho bài toán Nhận dạng Thực thể Tên (NER).  
 - Làm quen với dữ liệu NER CoNLL 2003, xây dựng vocabulary, Dataset, DataLoader trong PyTorch.  
