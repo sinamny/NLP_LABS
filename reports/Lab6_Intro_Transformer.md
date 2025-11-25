@@ -15,7 +15,7 @@ nlp-labs/
 │   ├── lab2/                     # Lab 2: Vectorizer
 │   ├── lab4/                     # Lab 4: Word Embeddings
 │   ├── lab5/                     # Lab 5: Text Classification
-│   ├── lab5_2/                   # Lab 5 – Giới thiệu về RNNs và các bài toán  
+│   ├── lab5_2/                   # Lab 5: Giới thiệu về RNNs và các bài toán  
 │   └── lab6/                     # Lab 6: Transformers
 │       ├── lab6_masked_language_modeling.py 
 │       ├── lab6_next_token_prediction.py

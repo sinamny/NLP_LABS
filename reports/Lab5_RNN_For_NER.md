@@ -29,8 +29,8 @@ nlp-labs/
 │   ├── lab1/                     # Lab 1: Tokenizer
 │   ├── lab2/                     # Lab 2: Vectorizer
 │   ├── lab4/                     # Lab 4: Word embeddings
-│   ├── lab5/                     # Lab 5: Sentiment analysis & text preprocessing
-│   ├── lab5_2/                   # Lab 5 phần nâng cao: RNN for NER
+│   ├── lab5/                     # Lab 5: Text Classification
+│   ├── lab5_2/                   # Lab 5: Giới thiệu về RNNs và các bài toán
 │   │   ├── lab5_pytorch_intro.py
 │   │   ├── lab5_rnns_text_classification.py
 │   │   ├── lab5_rnn_for_ner.py   # Mã nguồn chính cho RNN NER
