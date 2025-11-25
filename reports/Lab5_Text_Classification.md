@@ -15,14 +15,21 @@ Mục tiêu cụ thể:
 
 ### 2.1. Cấu trúc thư mục chính
 ```
-lab5/
- ┣ lab5_improvement_test_naivebayes.py
- ┣ lab5_improvement_test_preprocessing.py
- ┣ lab5_improvement_test_word2vec.py
- ┣ lab5_spark_sentiment_analysis.py
- ┣ lab5_test.py
- ┣ task1_data_preparation.py
- ┗ __init__.py
+nlp-labs/
+│
+├── labs/
+│   ├── lab1/
+│   ├── lab2/
+│   ├── lab4/
+│   ├── lab5/                          # Lab 5 
+│   │   ├── lab5_test.py               # Task 2–3: TF-IDF + Logistic Regression
+│   │   ├── task1_data_preparation.py  # Task 1
+│   │
+│   │   ├── lab5_improvement_test_preprocessing.py   # Task 4 – Improved preprocessing
+│   │   ├── lab5_improvement_test_word2vec.py        # Task 4 – Improved preprocessing
+│   │   ├── lab5_improvement_test_naivebayes.py      # Task 4 – Improved preprocessing
+│   │
+│   │   ├── lab5_spark_sentiment_analysis.py         # Advanced: PySpark
  ```
 ### **2.2. Cài đặt môi trường (sử dụng `requirements.txt`)**
 

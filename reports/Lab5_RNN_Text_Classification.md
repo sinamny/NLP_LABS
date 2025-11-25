@@ -19,13 +19,13 @@ nlp-labs/
 │   ├── lab1/                     # Lab 1: Tokenizer
 │   ├── lab2/                     # Lab 2: Vectorizer
 │   ├── lab4/                     # Lab 4: Word embeddings
-│   ├── lab5/                     # Lab 5: Sentiment analysis & text preprocessing
-│   ├── lab5_2/                   # Lab 5 phần nâng cao
+│   ├── lab5/                     # Lab 5: Text Classification
+│   ├── lab5_2/                   # Lab 5: Giới thiệu về RNNs và các bài toán
 │   │   ├── lab5_pytorch_intro.py
 │   │   ├── lab5_rnns_text_classification.py # Mã nguồn chính cho RNN Text Classification
 │   │   ├── lab5_rnn_for_ner.py   
 │   │   └── lab5_rnn_pos_tagging.py
-│   ├── lab6/                     # Lab 6: Language Modeling
+│   ├── lab6/                     # Lab 6: Giới thiệu Transformer
 │   └── __init__.py
 ```
 

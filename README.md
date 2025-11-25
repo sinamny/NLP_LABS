@@ -11,11 +11,9 @@ nlp-labs/
 │   ├── lab1/                      # Lab 1 – Giới thiệu NLP cơ bản
 │   ├── lab2/                      # Lab 2 – Xử lý văn bản
 │   ├── lab4/                      # Lab 4 – Word Embeddings      
-│   ├── lab5/                      # Lab 5 – Text Classification  
-│   │   ├── lab5_text_classification.py     # Task 1–3: Text classification pipeline (TF-IDF + Logistic Regression)
-│   │   ├── lab5_spark_sentiment_analysis.py# Advanced: Text classification với PySpark
-│   │   ├── lab5_improvement_test.py        # Task 4 – Cải thiện: Improved Preprocessing
-│   │   ├── lab5_improvement_test_word2vec.py # Task 4 – Cải thiện: Word2Vec Embedding         
+│   ├── lab5/                      # Lab 5 – Text Classification
+│   ├── lab5_2/                    # Lab 5 – Giới thiệu về RNNs và các bài toán  
+│   └── lab6/                      # Lab 6: Transformers    
 │   └── ...
 │
 ├── reports/               # File báo cáo tiết cho từng lab
