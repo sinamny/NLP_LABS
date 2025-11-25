@@ -50,7 +50,7 @@ nlp-labs/
 
 > **Chú thích:**
 >
-> * Tất cả mã nguồn của Lab 5 (bao gồm RNN for NER) nằm trong `labs/lab5_2`.
+> * Tất cả mã nguồn của Lab 5 nằm trong `labs/lab5_2`.
 > * File chính chạy trực tiếp: `lab5_rnn_pos_tagging.py`.
 ### **3.2. Cài đặt môi trường (sử dụng `requirements.txt`)**
 
