@@ -202,7 +202,6 @@ Xu hướng tương lai của TTS tập trung vào:
 Công nghệ TTS hứa hẹn đóng vai trò quan trọng trong trợ lý ảo, giáo dục, giải trí và rất nhiều ứng dụng khác trong tương lai.
 
 ## 9. Tài liệu tham khảo
- Tài liệu tham khảo chọn lọc (nguồn chính trích dẫn)
 - Tacotron 2 — Shen et al., *Natural TTS Synthesis by Conditioning WaveNet on Mel-Spectrograms*. ([arXiv](https://arxiv.org/abs/1712.05884 "Natural TTS Synthesis by Conditioning WaveNet on Mel Spectrogram Predictions"))
 - FastSpeech 2 — Ren et al., *FastSpeech 2: Fast and High-Quality End-to-End Text-to-Speech*. ([arXiv](https://arxiv.org/abs/2006.04558 "[2006.04558] FastSpeech 2: Fast and High-Quality End-to-End Text to Speech"))
 - HiFi-GAN and GAN vocoders (multi-resolution discriminator work). ([gfx.cs.princeton.edu](https://gfx.cs.princeton.edu/gfx/pubs/Su_2021_HSS/Su-HiFi-GAN-2-WASPAA-2021.pdf "hifi-gan-2: studio-quality speech enhancement via generative"))
