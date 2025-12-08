@@ -149,8 +149,7 @@ displacy.serve(doc, style="dep")
 
 ```
 ##### Kết quả
-<img src="../results/dependency_tree.png" width="700" />
-
+<img src="../results/dependency_tree.png"  />
 ##### Trả lời câu hỏi
 **1. Từ nào là gốc (ROOT) của câu?**
 
