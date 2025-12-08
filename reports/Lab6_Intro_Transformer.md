@@ -46,7 +46,7 @@ nlp-lab-env\Scripts\activate      # Windows
 ```bash
 pip install -r requirements.txt
 ```
-### **2.3. Chạy Lab 6: ách chạy từng bài tập**
+### **2.3. Chạy Lab 6: Cách chạy từng bài tập**
 ```bash
 # Mở terminal tại thư mục gốc của dự án nlp-labs
 cd nlp-labs
