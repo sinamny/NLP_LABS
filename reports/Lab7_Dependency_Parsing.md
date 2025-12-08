@@ -65,7 +65,7 @@ pip install -r requirements.txt
 # Tải model tiếng Anh (en_core_web_md)
 python -m spacy download en_core_web_md
 ```
-### **2.3. Chạy Lab 7: Lệnh chạy từng file
+### 2.3. Chạy Lab 7: Lệnh chạy từng file
 - Chạy trực quan hoá (mở trình duyệt):
 
 ```bash
@@ -149,7 +149,7 @@ displacy.serve(doc, style="dep")
 
 ```
 ##### Kết quả
-<img src="../results/dependency_tree.png" width="500" />
+<img src="../results/dependency_tree.png" width="700" />
 
 ##### Trả lời câu hỏi
 **1. Từ nào là gốc (ROOT) của câu?**
