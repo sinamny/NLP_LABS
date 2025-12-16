@@ -37,9 +37,9 @@ Hiểu và triển khai bước tiền xử lý văn bản cơ bản: **tokeniza
 ### Cách chạy Lab 1
 ```bash
 python -m labs.lab1.test_lab1_tokenizer
-````
+```
 
-### Kết quả mẫu
+### Kết quả
 
 #### Ví dụ câu test
 
@@ -69,7 +69,6 @@ RegexTokenizer: ['al', '-', 'zaman', ':', 'american', 'forces', 'killed', 'shaik
 * **SimpleTokenizer**: dễ đọc, giữ nguyên từ gốc và một số dấu câu liền nhau (ví dụ: "let's").
 * **RegexTokenizer**: chi tiết hơn, tách ký tự đặc biệt như `'` ra riêng, phù hợp với pipeline NLP cần token chính xác.
 
----
 
 ## Lab 2: Count Vectorization
 

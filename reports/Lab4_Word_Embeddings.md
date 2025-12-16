@@ -10,13 +10,13 @@
 ## **2. Chuẩn bị môi trường**
 
 
-### Cài đặt thư viện
+### 2.1. Cài đặt thư viện
 Trước khi thực hiện, cài đặt các thư viện cần thiết:
 
 ```bash
 pip install gensim scikit-learn matplotlib
 ```
-### Cấu trúc thư mục chính
+### 2.2. Cấu trúc thư mục chính
 
 ```
 nlp-labs/
