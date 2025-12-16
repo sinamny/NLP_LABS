@@ -71,8 +71,6 @@ RegexTokenizer: ['al', '-', 'zaman', ':', 'american', 'forces', 'killed', 'shaik
 
 ## Khó khăn và cách giải quyết
 
-Trong quá trình thực hiện Lab 1, bạn có thể gặp phải những khó khăn sau:
-
 | Khó khăn | Mô tả chi tiết | Cách giải quyết đề xuất |
 | :--- | :--- | :--- |
 | **1. Xử lý các trường hợp dấu câu và từ viết tắt phức tạp** | Các trường hợp như từ có dấu gạch nối (`"state-of-the-art"`), từ viết tắt (`"isn't"`, `"Dr."`), và ranh giới từ phức hợp (`"New York"`) rất khó xử lý bằng quy tắc đơn giản. | **Với RegexTokenizer**: Sử dụng biểu thức chính quy tinh vi hơn. Ví dụ, để tách tốt hơn các từ viết tắt, bạn có thể thử sử dụng mẫu như `r"\w+(?:'\w+)?|[^\w\s]"`. Đối với trường hợp như `"D. Trump"`, có thể sử dụng quy tắc lookaround, ví dụ: `r"(?<=[A-Za-z])\.\s+"` để chỉ tách khi dấu chấm đứng sau một chữ cái và có khoảng trắng. |
